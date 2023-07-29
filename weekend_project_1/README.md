@@ -44,6 +44,12 @@ https://sepolia.etherscan.io/tx/0x8da45f2a667980602f754df2f14effbd81ff679c50e0a8
 #### Transferred Ownership of the contract 
 https://sepolia.etherscan.io/tx/0x77071ed6a2a6a1d2a04652160c3b6456859331248713228d9ef90c0085723e63
 
+### Set new text failed
+https://sepolia.etherscan.io/tx/0x88335fc9269ce69d62472ae5b09dce2064560eeb74e959ad8549525f2184212d
+
+#### Transferred Ownership of the contract failed
+https://sepolia.etherscan.io/tx/0x839f37eec868a87bbf8b2a105e6f36c70f785b3f2a11798db839030c5a5c7579
+
 
 
 
