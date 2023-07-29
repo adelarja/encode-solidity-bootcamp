@@ -39,6 +39,11 @@ The owner transfered the ownership to an address that was not controlled by any 
 https://sepolia.etherscan.io/tx/0xa3f07c66166764c3b1de2a56c69d669512de0569e01d386b1ceb0b30cac7f046
 
 ### New smart contract deployment
+#### Set new text
+https://sepolia.etherscan.io/tx/0x8da45f2a667980602f754df2f14effbd81ff679c50e0a88eb9d54473db1df784
+#### Transferred Ownership of the contract 
+https://sepolia.etherscan.io/tx/0x77071ed6a2a6a1d2a04652160c3b6456859331248713228d9ef90c0085723e63
+
 
 
 
