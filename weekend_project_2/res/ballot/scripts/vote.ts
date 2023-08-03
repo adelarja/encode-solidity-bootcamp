@@ -1,27 +1,22 @@
 import { ethers } from "hardhat";
+import { Ballot, Ballot__factory } from "../typechain-types";
 import { HDNodeWallet } from "ethers";
 import * as dotenv from 'dotenv';
-import { Ballot__factory } from "../typechain-types";
 
 dotenv.config();
 
-async function deployContract(wallet: HDNodeWallet, proposals: string[]) {
+async function attachContract(wallet: HDNodeWallet, contractAddress: string) {
   const ballotFactory = new Ballot__factory(wallet);
-  const ballotContract = await ballotFactory.deploy(
-    proposals.map(ethers.encodeBytes32String)
-  );
-  await ballotContract.waitForDeployment();
+  const ballotContract = ballotFactory.attach(contractAddress) as Ballot;
   return ballotContract;
 }
 
+const PROPOSALS_LENGTH = 3;
+
 async function main() {
-  // const proposals = process.argv.slice(2);
-  const proposals = ["macos", "windows", "linux"];
-  console.log("Deploying Ballot contract");
-  console.log("Proposals: ");
-  proposals.forEach((element, index) => {
-    console.log(`Proposal ${index + 1}: ${element}`);
-  });
+  const parameter = process.argv.slice(2);
+  const contractAddress = parameter[0];
+  const voteFor = parseInt(parameter[1], 10);
 
   const provider = new ethers.JsonRpcProvider(process.env.RPC_ENDPOINT_URL ?? "");
   const wallet = ethers.Wallet.fromPhrase(process.env.MNEMONIC ?? "", provider);
@@ -36,14 +31,20 @@ async function main() {
     throw new Error("Not enough ether");
   }
 
-  const ballotContract = await deployContract(wallet, proposals);
-  const address = await ballotContract.getAddress();
-  console.log(`Deployed Ballot contract to ${address} address`);
-  for (let index = 0; index < proposals.length; index++) {
+  console.log("Attaching to Ballot contract");
+  const ballotContract = await attachContract(wallet, contractAddress);
+  console.log("Proposals: ");
+  for (let index = 0; index < PROPOSALS_LENGTH; index++) {
     const proposal = await ballotContract.proposals(index);
     const name = ethers.decodeBytes32String(proposal.name)
     const { voteCount } = proposal;
-    console.log({ name, voteCount })
+    console.log({ index, name, voteCount });
+  }
+
+  if (0 <= voteFor && voteFor < PROPOSALS_LENGTH) {
+    console.log(`Voting for the ${voteFor} proposal`);
+    await ballotContract.vote(voteFor);
+    console.log("Done!")
   }
 }
 
