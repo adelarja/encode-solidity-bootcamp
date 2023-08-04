@@ -11,9 +11,10 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.ts
 
-## Test:
+
 ```
-  Ballot
+## Test
+    Ballot
     when the contract is deployed
       ✔ has the provided proposals
       ✔ has zero votes for all proposals
