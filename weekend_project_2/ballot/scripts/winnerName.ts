@@ -1,5 +1,4 @@
 import { ethers } from 'hardhat';
-import { Ballot__factory } from "../../typechain-types";
 import * as dotenv from 'dotenv';
 import { getContractAt, getProposals } from "./common";
 dotenv.config();

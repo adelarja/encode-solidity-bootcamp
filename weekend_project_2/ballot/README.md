@@ -1,16 +1,13 @@
-# Sample Hardhat Project
-
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-
+# Homework week 2
+# Commands 
+```
+yarn run deploy <prop1> <prop2> <prop3>  ...
+yarn run vote <contract:string> <vote:number
+yarn run giveRightToVote <contract:string> <address:string>
+yarn run delegate <contract:string> <address:string>
+yarn run winner:proposal <contract:string>
+yarn run winner:name <contract:string> 
+```
 ```
 ## Contract Address: 0xE380Db20c6D3c99199BDA9672C99965decc205a7
 ## Test

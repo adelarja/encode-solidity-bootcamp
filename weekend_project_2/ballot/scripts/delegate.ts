@@ -1,6 +1,4 @@
 
-import { ethers } from "ethers";
-import { Ballot__factory } from "../../typechain-types";
 import * as dotenv from 'dotenv';
 import { getContractAt } from "./common";
 dotenv.config();

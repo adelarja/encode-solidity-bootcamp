@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { Ballot, Ballot__factory } from "../../typechain-types";
+import { Ballot, Ballot__factory } from "../typechain-types";
 import * as dotenv from 'dotenv';
 dotenv.config();
 
