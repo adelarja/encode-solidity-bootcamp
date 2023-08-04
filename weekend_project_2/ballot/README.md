@@ -8,9 +8,10 @@ yarn run delegate <contract:string> <address:string>
 yarn run winner:proposal <contract:string>
 yarn run winner:name <contract:string> 
 ```
-```
 ## Contract Address: 0xE380Db20c6D3c99199BDA9672C99965decc205a7
+
 ## Test
+```
     Ballot
     when the contract is deployed
       ✔ has the provided proposals
