@@ -11,8 +11,8 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.ts
 
-
 ```
+## Contract Address: 0xE380Db20c6D3c99199BDA9672C99965decc205a7
 ## Test
     Ballot
     when the contract is deployed
