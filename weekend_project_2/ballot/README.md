@@ -44,4 +44,4 @@ npx hardhat run scripts/deploy.ts
       ✔ should return name of proposal 0
     when someone interacts with the winningProposal function and winnerName after 5 random votes are cast for the proposals
       ✔ should return the name of the winner proposal (84ms)
-  17 passing (2s)
+  ### 17 passing (2s)
