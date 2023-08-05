@@ -43,6 +43,12 @@ This transaction was made by a participant who had already voted. As expected, i
 
 https://sepolia.etherscan.io/tx/0xe1f7e3f5e454027790a6f55417ee0707fed75c9f0077b90cf70172eac5c4e19b
 
+## Rejected delegate vote: already voted.
+
+This transaction was made by a participant who had already voted. As expected, it was rejected:
+
+https://sepolia.etherscan.io/tx/0x75ff7d704b3671156d13dc30f4e768e07f7cd6edd29c7b831a02cb6e0ece23cb
+
 ## Interesting thing to note
 
 Adding `{ gasLimit: 50000 }` to the transaction calls allowed us to always register the transaction on the network. Without this parameter, the transaction was rejected before it was sent to the network, and the error appeared in the terminal.
