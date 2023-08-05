@@ -1,10 +1,11 @@
 # Homework week 2
-# Commands 
+## Commands 
 ```
 yarn run deploy <prop1> <prop2> <prop3>  ...
-yarn run vote <contract:string> <vote:number
+yarn run vote <contract:string> <vote:number>
 yarn run giveRightToVote <contract:string> <address:string>
 yarn run delegate <contract:string> <address:string>
+yarn run viewProposals <contract:string>
 yarn run winner:proposal <contract:string>
 yarn run winner:name <contract:string> 
 ```
@@ -31,23 +32,44 @@ https://sepolia.etherscan.io/tx/0x7f3a6d1ba87641f2301be080a558a22c44dd55c2f64bbc
 https://sepolia.etherscan.io/tx/0x5055dd0eb40979d642fc4a149d900699c065def1cd7c7d3b638d6413d15de40d
 https://sepolia.etherscan.io/tx/0x408526b8a76d762ccd62a3e50d368f70486d74ef1d1ef8e86ae6f07755ce1534
 
-## Rejected give right to vote:
+## Rejected give right to vote
 
 This transaction was made by a participant who was not the chairman. As expected, it was rejected:
 
 https://sepolia.etherscan.io/tx/0x0d00d1b20901fe16e55107da6bed517696cfb0bddce53ca6329990f80586e579
 
-## Rejected vote: already voted.
+## Rejected vote: already voted
 
 This transaction was made by a participant who had already voted. As expected, it was rejected:
 
 https://sepolia.etherscan.io/tx/0xe1f7e3f5e454027790a6f55417ee0707fed75c9f0077b90cf70172eac5c4e19b
 
-## Rejected delegate vote: already voted.
+## Rejected delegate vote: already voted
 
 This transaction was made by a participant who had already voted. As expected, it was rejected:
 
 https://sepolia.etherscan.io/tx/0x75ff7d704b3671156d13dc30f4e768e07f7cd6edd29c7b831a02cb6e0ece23cb
+
+## Voting result
+There were 3 options in our ballot: `["macos", "windows", "linux"]`. All 3 votes went to `macos` 🍏.
+
+```
+$ yarn run viewProposals 0xE380Db20c6D3c99199BDA9672C99965decc205a7
+Using address 0x77909026Dec54D7D05e6e7FC065C4A5623c48f51
+Wallet balance 0.504894484691303
+Viewing proposals for contract: 0xE380Db20c6D3c99199BDA9672C99965decc205a7
+Proposal 0: macos with 3 votes
+Proposal 1: windows with 0 votes
+Proposal 2: linux with 0 votes
+```
+```
+$ yarn run winner:proposal 0xE380Db20c6D3c99199BDA9672C99965decc205a7
+Getting the winning proposal for 0xE380Db20c6D3c99199BDA9672C99965decc205a7
+Using address 0x77909026Dec54D7D05e6e7FC065C4A5623c48f51
+Wallet balance 0.504894484691303
+Winning proposal is proposal 0: macos with 3 votes
+```
+
 
 ## Interesting thing to note
 

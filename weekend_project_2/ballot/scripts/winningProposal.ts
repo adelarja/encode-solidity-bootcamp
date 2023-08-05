@@ -9,10 +9,11 @@ async function main() {
   console.log(`Getting the winning proposal for ${contractAddress}`);
 
   const ballotContract = await getContractAt(contractAddress);
-  const winningProposalIndex = await ballotContract.winningProposal();
-  const winningProposal = await ballotContract.proposals(winningProposalIndex);
+  const index = await ballotContract.winningProposal();
+  const proposal = await ballotContract.proposals(index);
+  const proposalName = ethers.decodeBytes32String(proposal.name);
 
-  console.log(`Winning proposal is -> Index: ${winningProposalIndex} Name: ${ethers.decodeBytes32String(winningProposal.name)} Votes: ${winningProposal.voteCount}`);
+  console.log(`Winning proposal is proposal ${index}: ${proposalName} with ${proposal.voteCount} votes`);
 }
 
 main().catch((error) => {

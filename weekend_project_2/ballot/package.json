@@ -8,6 +8,7 @@
     "deploy": "yarn run ts-node ./scripts/deploy.ts",
     "giveRightToVote": "yarn run ts-node ./scripts/giveRightToVote.ts",
     "delegate": "yarn run ts-node ./scripts/delegate.ts",
+    "viewProposals": "yarn run ts-node ./scripts/viewProposals.ts",
     "winner:name": "yarn run ts-node ./scripts/winnerName.ts",
     "winner:proposal": "yarn run ts-node ./scripts/winningProposal.ts",
     "test": "yarn hardhat test"
