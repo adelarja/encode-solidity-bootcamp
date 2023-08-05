@@ -8,7 +8,7 @@ async function main() {
   console.log(`Giving right to vote to: ${voterAddress} in contract ${contractAddress}`);
 
   const ballotContract = await getContractAt(contractAddress);
-  ballotContract.giveRightToVote(voterAddress, { gasLimit: 5000000 });
+  await ballotContract.giveRightToVote(voterAddress, { gasLimit: 5000000 });
   
   console.log("Done...");
 }

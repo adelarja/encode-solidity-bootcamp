@@ -9,7 +9,7 @@ async function main() {
   console.log(`Delegating on contract: ${contractAddress} for proposal ${to}`);
 
   const ballotContract = await getContractAt(contractAddress);
-  ballotContract.delegate(to);
+  ballotContract.delegate(to, { gasLimit: 50000 });
   
   console.log("Delegated!");
 }

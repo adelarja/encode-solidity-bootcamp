@@ -16,7 +16,7 @@ const loadWallet = (provider: ethers.JsonRpcProvider) => {
 
   }
 
-  return ethers.Wallet.createRandom(provider);
+  return new ethers.Wallet(process.env.PRIVATE_KEY ?? "", provider);
 }
 export async function getProvider(){
   return new ethers.JsonRpcProvider(process.env.RPC_ENDPOINT_URL);
