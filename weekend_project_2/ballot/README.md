@@ -19,18 +19,18 @@ https://sepolia.etherscan.io/tx/0xf8676e2c6b1a57642ddadf201ad614b7d3e80ff52157ed
 
 The next transactions were done by the chairman:
 
-https://sepolia.etherscan.io/tx/0x8977dcebd1ecfbf9df0aa3102de8d1e7d50ab726fa711a1216cbd163c95b05bf
-https://sepolia.etherscan.io/tx/0x4c05881b01df65a531b10f07f79d4ff49428c3c3db9dfe3d33dbb8d6381e1dd6
-https://sepolia.etherscan.io/tx/0xd258ad75b6d641d0b7b050cbba4ae701cb86820948ff1e864bd71ca6e6e77956
-https://sepolia.etherscan.io/tx/0x3d2e0bf2da6a05abc836200b5bcda9b5c86ac517cfb7aa6180818714df1fd789
+* https://sepolia.etherscan.io/tx/0x8977dcebd1ecfbf9df0aa3102de8d1e7d50ab726fa711a1216cbd163c95b05bf
+* https://sepolia.etherscan.io/tx/0x4c05881b01df65a531b10f07f79d4ff49428c3c3db9dfe3d33dbb8d6381e1dd6
+* https://sepolia.etherscan.io/tx/0xd258ad75b6d641d0b7b050cbba4ae701cb86820948ff1e864bd71ca6e6e77956
+* https://sepolia.etherscan.io/tx/0x3d2e0bf2da6a05abc836200b5bcda9b5c86ac517cfb7aa6180818714df1fd789
 
 ## Vote
 
 The next transactions were done by the voters (including the chairman):
 
-https://sepolia.etherscan.io/tx/0x7f3a6d1ba87641f2301be080a558a22c44dd55c2f64bbcfdf7b0f4172d9ff9ea
-https://sepolia.etherscan.io/tx/0x5055dd0eb40979d642fc4a149d900699c065def1cd7c7d3b638d6413d15de40d
-https://sepolia.etherscan.io/tx/0x408526b8a76d762ccd62a3e50d368f70486d74ef1d1ef8e86ae6f07755ce1534
+* https://sepolia.etherscan.io/tx/0x7f3a6d1ba87641f2301be080a558a22c44dd55c2f64bbcfdf7b0f4172d9ff9ea
+* https://sepolia.etherscan.io/tx/0x5055dd0eb40979d642fc4a149d900699c065def1cd7c7d3b638d6413d15de40d
+* https://sepolia.etherscan.io/tx/0x408526b8a76d762ccd62a3e50d368f70486d74ef1d1ef8e86ae6f07755ce1534
 
 ## Rejected give right to vote
 
