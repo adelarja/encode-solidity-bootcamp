@@ -84,8 +84,8 @@ await ballotContract.vote(proposal, { gasLimit: 50000 });
 ```
 
 ## Test
-```bash
-    Ballot
+```
+   Ballot
     when the contract is deployed
       ✔ has the provided proposals
       ✔ has zero votes for all proposals
