@@ -3,10 +3,12 @@
 /* eslint-disable */
 import type {
   BaseContract,
+  BigNumberish,
   BytesLike,
   FunctionFragment,
   Result,
   Interface,
+  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -17,41 +19,27 @@ import type {
   TypedEventLog,
   TypedListener,
   TypedContractMethod,
-} from "../common";
+} from "../../../../common";
 
-export interface TokenSaleInterface extends Interface {
-  getFunction(
-    nameOrSignature: "buyTokens" | "nftContract" | "paymentToken" | "ratio"
-  ): FunctionFragment;
+export interface IERC721ReceiverInterface extends Interface {
+  getFunction(nameOrSignature: "onERC721Received"): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "buyTokens", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "nftContract",
-    values?: undefined
+    functionFragment: "onERC721Received",
+    values: [AddressLike, AddressLike, BigNumberish, BytesLike]
   ): string;
-  encodeFunctionData(
-    functionFragment: "paymentToken",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "ratio", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "buyTokens", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "nftContract",
+    functionFragment: "onERC721Received",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "paymentToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "ratio", data: BytesLike): Result;
 }
 
-export interface TokenSale extends BaseContract {
-  connect(runner?: ContractRunner | null): TokenSale;
+export interface IERC721Receiver extends BaseContract {
+  connect(runner?: ContractRunner | null): IERC721Receiver;
   waitForDeployment(): Promise<this>;
 
-  interface: TokenSaleInterface;
+  interface: IERC721ReceiverInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -90,30 +78,33 @@ export interface TokenSale extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  buyTokens: TypedContractMethod<[], [void], "payable">;
-
-  nftContract: TypedContractMethod<[], [string], "view">;
-
-  paymentToken: TypedContractMethod<[], [string], "view">;
-
-  ratio: TypedContractMethod<[], [bigint], "view">;
+  onERC721Received: TypedContractMethod<
+    [
+      operator: AddressLike,
+      from: AddressLike,
+      tokenId: BigNumberish,
+      data: BytesLike
+    ],
+    [string],
+    "nonpayable"
+  >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
 
   getFunction(
-    nameOrSignature: "buyTokens"
-  ): TypedContractMethod<[], [void], "payable">;
-  getFunction(
-    nameOrSignature: "nftContract"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "paymentToken"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "ratio"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: "onERC721Received"
+  ): TypedContractMethod<
+    [
+      operator: AddressLike,
+      from: AddressLike,
+      tokenId: BigNumberish,
+      data: BytesLike
+    ],
+    [string],
+    "nonpayable"
+  >;
 
   filters: {};
 }

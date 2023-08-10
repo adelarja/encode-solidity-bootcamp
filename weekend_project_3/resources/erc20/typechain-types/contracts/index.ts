@@ -3,4 +3,5 @@
 /* eslint-disable */
 import type * as myErc20Sol from "./MyERC20.sol";
 export type { myErc20Sol };
+export type { MyERC721 } from "./MyERC721";
 export type { TokenSale } from "./TokenSale";
