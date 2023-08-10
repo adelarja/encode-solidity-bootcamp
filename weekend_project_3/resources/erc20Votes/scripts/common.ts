@@ -51,7 +51,7 @@ export function getProposals() {
 
   }
 
-  return proposals;
+  return proposals.map(ethers.encodeBytes32String);
 }
 
 export function getAddressAndBlockNumber() {
