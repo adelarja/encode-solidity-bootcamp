@@ -54,8 +54,9 @@ export function getProposals() {
   return proposals.map(ethers.encodeBytes32String);
 }
 
-export function getAddressAndBlockNumber() {
-  const [tokenContractAddress, blockNumber] = process.argv.slice(process.argv.length - 2);
+export async function getAddressAndBlockNumber() {
+  const [tokenContractAddress] = process.argv.slice(process.argv.length - 1);
+  const blockNumber = await (await getProvider()).getBlockNumber();
 
   return { tokenContractAddress, blockNumber };
 }
@@ -79,7 +80,7 @@ export async function getTokenContractAt(contractAddress: string) {
 
 export async function deployTokenizedBallotContract() {
   const proposals = getProposals();
-  const {tokenContractAddress, blockNumber} = getAddressAndBlockNumber();
+  const {tokenContractAddress, blockNumber} = await getAddressAndBlockNumber();
   const wallet = await getWallet();
 
   const tokenizedBallotFactory = new TokenizedBallot__factory(wallet);
