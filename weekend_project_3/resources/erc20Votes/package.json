@@ -6,7 +6,8 @@
   "scripts": {
     "vote": "yarn run ts-node ./scripts/vote.ts",
     "deploy": "yarn run ts-node ./scripts/deploy.ts",
-    "giveRightToVote": "yarn run ts-node ./scripts/giveRightToVote.ts",
+    "checkVotingPower": "yarn run ts-node ./scripts/checkVotingPower.ts",
+    "viewProposals": "yarn run ts-node ./scripts/viewProposals.ts",
     "delegate": "yarn run ts-node ./scripts/delegate.ts",
     "winner:name": "yarn run ts-node ./scripts/winnerName.ts",
     "winner:proposal": "yarn run ts-node ./scripts/winningProposal.ts",
