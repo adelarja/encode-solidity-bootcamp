@@ -1,4 +1,4 @@
-# Homework week 2
+# Homework week 3
 # Commands 
 ```
 yarn run deploy <prop1> <prop2> <prop3>  ...
