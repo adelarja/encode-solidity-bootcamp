@@ -3,12 +3,12 @@ import { deployTokenContract } from "./common";
 dotenv.config();
 
 async function main() {
-  console.log("Deploying Ballot contract");
+  console.log("Deploying Token contract");
 
   const tokenContract = await deployTokenContract();
   
   const address = await tokenContract.getAddress();
-  console.log(`Contract deployed at address ${address}`);
+  console.log(`Token Contract deployed at address ${address}`);
 }
 
 main().catch((error) => {

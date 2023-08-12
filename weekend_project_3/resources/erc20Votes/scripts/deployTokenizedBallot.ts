@@ -3,7 +3,7 @@ import { deployTokenizedBallotContract } from "./common";
 dotenv.config();
 
 async function main() {
-  console.log("Deploying Ballot contract");
+  console.log("Deploying TokenizedBallot contract");
 
   const tokenizedBallotContract = await deployTokenizedBallotContract();
   

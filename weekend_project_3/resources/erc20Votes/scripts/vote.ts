@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
 import { getTokenizedBallotContractAt } from "./common";
+import { ethers } from 'hardhat';
 dotenv.config();
 
 async function main() {
@@ -8,7 +9,7 @@ async function main() {
   console.log(`Voting on contract: ${contractAddress} for proposal ${proposal} `);
 
   const ballotContract = await getTokenizedBallotContractAt(contractAddress);
-  await ballotContract.vote(proposal, amount, {gasLimit: 50000});
+  await ballotContract.vote(proposal, ethers.parseUnits(amount), {gasLimit: 50000});
   
   console.log("Voted!");
 }
