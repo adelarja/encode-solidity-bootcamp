@@ -2,6 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as erc20VotesSol from "./ERC20Votes.sol";
-export * as myErc20Sol from "./MyERC20.sol";
-export { MyERC721__factory } from "./MyERC721__factory";
-export { TokenSale__factory } from "./TokenSale__factory";
+export * as tokenizedBallotSol from "./TokenizedBallot.sol";

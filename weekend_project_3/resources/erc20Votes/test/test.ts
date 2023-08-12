@@ -1,133 +1,202 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { TokenSale, ERC20, MyERC20Token, MyERC721 } from "../typechain-types";
-import {loadFixture} from "@nomicfoundation/hardhat-network-helpers";
+import { MyToken, MyToken__factory, TokenizedBallot, TokenizedBallot__factory } from "../typechain-types";
 import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
-const RATIO: bigint = 10n;
+import { type } from "os";
 
-describe("NFT Shop", async () => {
-  let tokenSaleContract: TokenSale;
-  let paymentTokenContract: ERC20;
-  let accounts: HardhatEthersSigner[];
+
+describe("Testing ERC20 Ballot", async () => {
+
   let deployer: HardhatEthersSigner;
-  let account1: HardhatEthersSigner;
-  let account2: HardhatEthersSigner;
-  let nftContract: MyERC721;
+  let acc1: HardhatEthersSigner;
+  let acc2: HardhatEthersSigner;
+  let myTokenContract: MyToken;
+  let TokenizedBallotContract: TokenizedBallot
+  const amount100 = ethers.parseEther("100");
+  const amount50 = ethers.parseEther("50");
+  function getRandomInt(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  function getProposals() {
+    const text: string[] = ["🍌", "🥝", "🍒", "🍄", "🫐", "🍊"];
+    const bytes = text.map(ethers.encodeBytes32String);
+    return { text, bytes }
+  }
+  async function deployContracts(deployer: HardhatEthersSigner) {
 
-  async function deployContracts() {
-    const myTokenContractFactory = await ethers.getContractFactory("MyERC20Token");
-    const paymentTokenContract_ = await myTokenContractFactory.deploy();
-    await paymentTokenContract_.waitForDeployment();
 
-    const paymentTokenContractAddress = await paymentTokenContract_.getAddress();
+    const myTokenContractFactory = new MyToken__factory(deployer);
+    const myTokenContract_ = await myTokenContractFactory.deploy();
+    await myTokenContract_.waitForDeployment();
+    await myTokenContract_.mint(deployer, amount100);
+    await myTokenContract_.delegate(deployer);
 
-    const nftContractFactory = await ethers.getContractFactory("MyERC721");
-    const nftTokenContract_ = await nftContractFactory.deploy();
-    await nftTokenContract_.waitForDeployment();
+    const tokenizedBallotFactory = new TokenizedBallot__factory(deployer);
+    const blockNumber = await ethers.provider.getBlockNumber();
+    const tokenizedBallotContract_ = await tokenizedBallotFactory.deploy(getProposals().bytes, await myTokenContract_.getAddress(), blockNumber);
+    await tokenizedBallotContract_.waitForDeployment();
 
-    const nftTokenContractAddress = await nftTokenContract_.getAddress();
-
-    const tokenSalecontractFactory = await ethers.getContractFactory("TokenSale");
-    const tokenSaleContract_ = await tokenSalecontractFactory.deploy(RATIO, paymentTokenContractAddress, nftTokenContractAddress);
-    await tokenSaleContract_.waitForDeployment();
-
-    const tokenSaleContractAddress = await tokenSaleContract_.getAddress();
-    const MINTER_ROLE = await paymentTokenContract_.MINTER_ROLE();
-    const giveRoleTx = await paymentTokenContract_.grantRole(MINTER_ROLE, tokenSaleContractAddress);
-    await giveRoleTx.wait();
-    
-    return { tokenSaleContract_, paymentTokenContract_, nftTokenContract_ }
+    return { myTokenContract_, tokenizedBallotContract_ }
   }
   beforeEach(async () => {
-    accounts = await ethers.getSigners();
-    [deployer, account1, account2] = await ethers.getSigners();
-    const { tokenSaleContract_, paymentTokenContract_, nftTokenContract_ } = await loadFixture(deployContracts);
-    tokenSaleContract = tokenSaleContract_;
-    paymentTokenContract = paymentTokenContract_;
-    nftContract = nftTokenContract_;
+    [deployer, acc1, acc2] = await ethers.getSigners();
+    const { myTokenContract_, tokenizedBallotContract_ } = await deployContracts(deployer);
+    myTokenContract = myTokenContract_;
+    TokenizedBallotContract = tokenizedBallotContract_;
   });
 
-  describe("When the Shop contract is deployed", async () => {
-    it("defines the ratio as provided in parameters", async () => {
-      const ratio = await tokenSaleContract.ratio();
-      expect(RATIO).to.eq(ratio);
-    });
+  async function getLastedBlock() {
+    return await ethers.provider.getBlockNumber();
+  }
+  describe("Deployments", async () => {
+    it("myToken deployment", async () => {
+      const address = await myTokenContract.getAddress()
+      expect(address).to.match(/^0x[a-fA-F0-9]{40}$/)
+    })
+    it("TokenizedBallot deployment", async () => {
+      const address = await TokenizedBallotContract.getAddress()
+      expect(address).to.match(/^0x[a-fA-F0-9]{40}$/)
+    })
+  })
+  describe("ERC20", async () => {
 
-    it("uses a valid ERC20 as payment token", async () => {
-      const paymentTokenAddress = await tokenSaleContract.paymentToken();
-      const tokenContractFactory = await ethers.getContractFactory("ERC20");
-      const paymentToken: ERC20 = tokenContractFactory.attach(paymentTokenAddress) as ERC20;
-      await expect(paymentToken.balanceOf(ethers.ZeroAddress)).not.to.be.reverted;
-      await expect(paymentToken.totalSupply()).not.to.be.reverted;
+    it("mint token", async () => {
+      await myTokenContract.mint(acc1, amount100);
+      const balance = (await myTokenContract.balanceOf(acc1)).toString()
+      await expect(balance).to.equal(amount100);
+    })
+    it("transfer token", async () => {
+      await myTokenContract.transfer(acc2, amount50)
+      const oldBalance = (await myTokenContract.balanceOf(deployer)).toString();
+      expect(oldBalance).equal(amount50);
+      const newBalance = (await myTokenContract.balanceOf(acc2)).toString();
+      expect(newBalance).equal(amount50);
+    })
+    it("delegate votes", async () => {
+      const votes = (await myTokenContract.getVotes(deployer)).toString();
+      expect(votes).equal(amount100);
+    })
+    it("transfer votes", async () => {
+      let votes = (await myTokenContract.getVotes(deployer)).toString();
+      expect(votes).equal(amount100);
+      await myTokenContract.transfer(acc2, amount50);
+      votes = (await myTokenContract.getVotes(deployer)).toString();
+      expect(votes).equal(amount50);
+    });
+    it("past votes", async () => {
+      const pastVotes = await myTokenContract.getPastVotes(deployer, await getLastedBlock() - 1);
+      expect(pastVotes).equal(amount100);
+    });
+  })
+  describe("tokenized ballot", () => {
+    it("all proposals", async () => {
+      getProposals().bytes.forEach(async (b, i) => {
+        const proposal = await TokenizedBallotContract.proposals(i);
+        expect(proposal).to.eq(b);
+      })
+    })
+    describe("testing votes ", async () => {
+      it("voting power", async () => {
+        const power = await TokenizedBallotContract.votingPower(deployer);
+        expect(power).equal(amount100);
+      })
+      it("vote in one propose", async () => {
+        const id = getRandomInt(0, getProposals().bytes.length - 1)
+        await TokenizedBallotContract.vote(id, ethers.parseEther("1"));
+        const name = await TokenizedBallotContract.winnerName();
+        expect(name).to.equal(getProposals().bytes[id]);
+      })
+      it("multiple votes", async () => {
+        await TokenizedBallotContract.vote(3, ethers.parseEther("33"));
+        await TokenizedBallotContract.vote(0, ethers.parseEther("33"));
+        await TokenizedBallotContract.vote(5, ethers.parseEther("34"));
+        const name = await TokenizedBallotContract.winnerName();
+        expect(name).to.equal(getProposals().bytes[5])
+      })
+      it("voting power spent", async () => {
+        await TokenizedBallotContract.vote(0, amount50);
+        const spent = await TokenizedBallotContract.votingPowerSpent(deployer);
+        expect(spent).to.equal(amount50)
+      })
+      it("vote without token", async () => {
+        await expect(
+          TokenizedBallotContract.connect(acc2).vote(0, ethers.parseEther("1")))
+          .revertedWith("TokenizedBallot: trying to vote with more votes than you have.")
+      })
+    })
+
+    describe("winner", () => {
+      describe("name", () => {
+        it("default", async () => {
+          const name = await TokenizedBallotContract.winnerName();
+          expect(name).to.equal(getProposals().bytes[0]);
+        })
+        it("after vote", async () => {
+          await TokenizedBallotContract.vote(1, amount100);
+          const name = await TokenizedBallotContract.winnerName();
+          expect(name).to.equal(getProposals().bytes[1]);
+        })
+      })
+      describe("proposals", async () => {
+        it("first proposal", async () => {
+          await TokenizedBallotContract.vote(0, amount100);
+          const [name, voteCount] = await TokenizedBallotContract.proposals(0);
+          expect(name).to.equal(getProposals().bytes[0]);
+          expect(voteCount).to.equal(amount100);
+        })
+        it("after vote", async () => {
+          await TokenizedBallotContract.vote(1, amount100);
+          const [name, voteCount] = await TokenizedBallotContract.proposals(1);
+          expect(name).to.equal(getProposals().bytes[1]);
+          expect(voteCount).to.equal(amount100);
+        })
+        it("random proposal", async () => {
+          const id = getRandomInt(0, getProposals().bytes.length - 1)
+          await TokenizedBallotContract.vote(id, amount100);
+          const name = await TokenizedBallotContract.winnerName();
+          expect(name).to.equal(getProposals().bytes[id]);
+        })
+      })
     });
   });
-
-  describe("When a user buys an ERC20 from the Token contract", async () => {
-    const TEST_ETH_VALUE = ethers.parseUnits("1");
-
-    let ETH_BALANCE_BEFORE_TX: bigint;
-    let ETH_BALANCE_AFTER_TX: bigint;
-    let TOKEN_BALANCE_BEFORE_TX: bigint;
-    let TOKEN_BALANCE_AFTER_TX: bigint;
-    let TX_FEES: bigint;
-
+  describe("access control", async () => {
+    let minterRole: string;
     beforeEach(async () => {
-      ETH_BALANCE_BEFORE_TX = await ethers.provider.getBalance(account1.address);
-      TOKEN_BALANCE_BEFORE_TX = await paymentTokenContract.balanceOf(account1.address);
-      const buyTokensTx = await tokenSaleContract.connect(account1).buyTokens({value: TEST_ETH_VALUE});
-      const receipt = await buyTokensTx.wait();
-      const gasUsed = receipt?.gasUsed ?? 0n;
-      const gasPrice = receipt?.gasPrice ?? 0n;
-      TX_FEES = gasUsed * gasPrice;
-      ETH_BALANCE_AFTER_TX = await ethers.provider.getBalance(account1.address);
-      TOKEN_BALANCE_AFTER_TX = await paymentTokenContract.balanceOf(account1.address);
-    });  
-    it("gives the correct amount of tokens", async () => {
-      const diff = TOKEN_BALANCE_AFTER_TX - TOKEN_BALANCE_BEFORE_TX;
-      const expectedDiff = TEST_ETH_VALUE * RATIO;
-      expect(diff).to.eq(expectedDiff);
+      minterRole = await myTokenContract.MINTER_ROLE();
+    })
+    describe("check access", () => {
+      it("minter role", async () => {
+        expect(await myTokenContract.hasRole(minterRole, deployer)).to.be.true;
+      })
+      it("admin role", async () => {
+        expect(await myTokenContract.hasRole(await myTokenContract.DEFAULT_ADMIN_ROLE(), deployer)).to.be.true;
+      })
+      it("has no role", async () => {
+        expect(await myTokenContract.hasRole(minterRole, acc1)).to.be.false;
+      })
     });
-
-    it("charges the correct amount of ETH", async () => {
-      const diff = ETH_BALANCE_BEFORE_TX - ETH_BALANCE_AFTER_TX;
-      const expectedDiff = TEST_ETH_VALUE + TX_FEES;
-      expect(diff).to.eq(expectedDiff);
-    });
-  });
-
-  describe("When a user burns an ERC20 at the Shop contract", async () => {
-    it("gives the correct amount of ETH", async () => {
-      throw new Error("Not implemented");
-    });
-
-    it("burns the correct amount of tokens", async () => {
-      throw new Error("Not implemented");
-    });
-  });
-
-  describe("When a user buys an NFT from the Shop contract", async () => {
-    it("charges the correct amount of ERC20 tokens", async () => {
-      throw new Error("Not implemented");
-    });
-
-    it("gives the correct NFT", async () => {
-      throw new Error("Not implemented");
-    });
-  });
-
-  describe("When a user burns their NFT at the Shop contract", async () => {
-    it("gives the correct amount of ERC20 tokens", async () => {
-      throw new Error("Not implemented");
-    });
-  });
-
-  describe("When the owner withdraws from the Shop contract", async () => {
-    it("recovers the right amount of ERC20 tokens", async () => {
-      throw new Error("Not implemented");
-    });
-
-    it("updates the owner pool account correctly", async () => {
-      throw new Error("Not implemented");
-    });
-  });
+    describe("manege roles", async () => {
+      it("grant role", async () => {
+        await myTokenContract.grantRole(minterRole, acc1);
+        expect(await myTokenContract.hasRole(minterRole, deployer)).to.be.true;
+        expect(await myTokenContract.hasRole(minterRole, acc1)).to.be.true;
+      })
+      it("revoke role", async () => {
+        await myTokenContract.grantRole(minterRole, acc1);
+        expect(await myTokenContract.hasRole(minterRole, acc1)).to.be.true;
+        await myTokenContract.revokeRole(minterRole, acc1);
+        expect(await myTokenContract.hasRole(minterRole, acc1)).to.be.false;
+      })
+      it("renounce role", async () => {
+        await myTokenContract.grantRole(minterRole, acc1);
+        expect(await myTokenContract.hasRole(minterRole, acc1)).to.be.true;
+        await myTokenContract.connect(acc1).renounceRole(minterRole, acc1);
+        expect(await myTokenContract.hasRole(minterRole, acc1)).to.be.false;
+      })
+      it("unauthorized renounce", async () => {
+        await myTokenContract.grantRole(minterRole, acc1);
+        await expect(myTokenContract.renounceRole(minterRole, acc1)).revertedWith("AccessControl: can only renounce roles for self")
+      })
+    })
+  })
 });

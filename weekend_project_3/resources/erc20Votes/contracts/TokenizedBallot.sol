@@ -8,7 +8,6 @@ interface IMyToken {
 /// @title Voting with delegation.
 contract TokenizedBallot {
     IMyToken tokenContract;
-
     struct Proposal {
         bytes32 name;
         uint voteCount;

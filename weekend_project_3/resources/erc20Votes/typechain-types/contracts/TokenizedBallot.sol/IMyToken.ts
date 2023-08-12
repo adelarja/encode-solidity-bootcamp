@@ -19,27 +19,27 @@ import type {
   TypedEventLog,
   TypedListener,
   TypedContractMethod,
-} from "../../../../common";
+} from "../../common";
 
-export interface IERC721ReceiverInterface extends Interface {
-  getFunction(nameOrSignature: "onERC721Received"): FunctionFragment;
+export interface IMyTokenInterface extends Interface {
+  getFunction(nameOrSignature: "getPastVotes"): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "onERC721Received",
-    values: [AddressLike, AddressLike, BigNumberish, BytesLike]
+    functionFragment: "getPastVotes",
+    values: [AddressLike, BigNumberish]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "onERC721Received",
+    functionFragment: "getPastVotes",
     data: BytesLike
   ): Result;
 }
 
-export interface IERC721Receiver extends BaseContract {
-  connect(runner?: ContractRunner | null): IERC721Receiver;
+export interface IMyToken extends BaseContract {
+  connect(runner?: ContractRunner | null): IMyToken;
   waitForDeployment(): Promise<this>;
 
-  interface: IERC721ReceiverInterface;
+  interface: IMyTokenInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -78,15 +78,10 @@ export interface IERC721Receiver extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  onERC721Received: TypedContractMethod<
-    [
-      operator: AddressLike,
-      from: AddressLike,
-      tokenId: BigNumberish,
-      data: BytesLike
-    ],
-    [string],
-    "nonpayable"
+  getPastVotes: TypedContractMethod<
+    [arg0: AddressLike, arg1: BigNumberish],
+    [bigint],
+    "view"
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
@@ -94,16 +89,11 @@ export interface IERC721Receiver extends BaseContract {
   ): T;
 
   getFunction(
-    nameOrSignature: "onERC721Received"
+    nameOrSignature: "getPastVotes"
   ): TypedContractMethod<
-    [
-      operator: AddressLike,
-      from: AddressLike,
-      tokenId: BigNumberish,
-      data: BytesLike
-    ],
-    [string],
-    "nonpayable"
+    [arg0: AddressLike, arg1: BigNumberish],
+    [bigint],
+    "view"
   >;
 
   filters: {};

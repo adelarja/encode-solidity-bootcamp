@@ -42,10 +42,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
     getContractFactory(
-      name: "ERC20Burnable",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC20Burnable__factory>;
-    getContractFactory(
       name: "ERC20Permit",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20Permit__factory>;
@@ -65,22 +61,6 @@ declare module "hardhat/types/runtime" {
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
-    getContractFactory(
-      name: "ERC721",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC721__factory>;
-    getContractFactory(
-      name: "IERC721Metadata",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721Metadata__factory>;
-    getContractFactory(
-      name: "IERC721",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721__factory>;
-    getContractFactory(
-      name: "IERC721Receiver",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721Receiver__factory>;
     getContractFactory(
       name: "EIP712",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -102,17 +82,13 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MyToken__factory>;
     getContractFactory(
-      name: "MyERC20Token",
+      name: "IMyToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MyERC20Token__factory>;
+    ): Promise<Contracts.IMyToken__factory>;
     getContractFactory(
-      name: "MyERC721",
+      name: "TokenizedBallot",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MyERC721__factory>;
-    getContractFactory(
-      name: "TokenSale",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.TokenSale__factory>;
+    ): Promise<Contracts.TokenizedBallot__factory>;
 
     getContractAt(
       name: "AccessControl",
@@ -150,11 +126,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ERC20>;
     getContractAt(
-      name: "ERC20Burnable",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC20Burnable>;
-    getContractAt(
       name: "ERC20Permit",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -179,26 +150,6 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
-    getContractAt(
-      name: "ERC721",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC721>;
-    getContractAt(
-      name: "IERC721Metadata",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC721Metadata>;
-    getContractAt(
-      name: "IERC721",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC721>;
-    getContractAt(
-      name: "IERC721Receiver",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC721Receiver>;
     getContractAt(
       name: "EIP712",
       address: string | ethers.Addressable,
@@ -225,20 +176,15 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.MyToken>;
     getContractAt(
-      name: "MyERC20Token",
+      name: "IMyToken",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
-    ): Promise<Contracts.MyERC20Token>;
+    ): Promise<Contracts.IMyToken>;
     getContractAt(
-      name: "MyERC721",
+      name: "TokenizedBallot",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
-    ): Promise<Contracts.MyERC721>;
-    getContractAt(
-      name: "TokenSale",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.TokenSale>;
+    ): Promise<Contracts.TokenizedBallot>;
 
     deployContract(
       name: "AccessControl",
@@ -269,10 +215,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC20>;
     deployContract(
-      name: "ERC20Burnable",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ERC20Burnable>;
-    deployContract(
       name: "ERC20Permit",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC20Permit>;
@@ -292,22 +234,6 @@ declare module "hardhat/types/runtime" {
       name: "IERC20",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC20>;
-    deployContract(
-      name: "ERC721",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ERC721>;
-    deployContract(
-      name: "IERC721Metadata",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC721Metadata>;
-    deployContract(
-      name: "IERC721",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC721>;
-    deployContract(
-      name: "IERC721Receiver",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC721Receiver>;
     deployContract(
       name: "EIP712",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -329,17 +255,13 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MyToken>;
     deployContract(
-      name: "MyERC20Token",
+      name: "IMyToken",
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.MyERC20Token>;
+    ): Promise<Contracts.IMyToken>;
     deployContract(
-      name: "MyERC721",
+      name: "TokenizedBallot",
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.MyERC721>;
-    deployContract(
-      name: "TokenSale",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.TokenSale>;
+    ): Promise<Contracts.TokenizedBallot>;
 
     deployContract(
       name: "AccessControl",
@@ -377,11 +299,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC20>;
     deployContract(
-      name: "ERC20Burnable",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ERC20Burnable>;
-    deployContract(
       name: "ERC20Permit",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -406,26 +323,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC20>;
-    deployContract(
-      name: "ERC721",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ERC721>;
-    deployContract(
-      name: "IERC721Metadata",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC721Metadata>;
-    deployContract(
-      name: "IERC721",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC721>;
-    deployContract(
-      name: "IERC721Receiver",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC721Receiver>;
     deployContract(
       name: "EIP712",
       args: any[],
@@ -452,20 +349,15 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MyToken>;
     deployContract(
-      name: "MyERC20Token",
+      name: "IMyToken",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.MyERC20Token>;
+    ): Promise<Contracts.IMyToken>;
     deployContract(
-      name: "MyERC721",
+      name: "TokenizedBallot",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.MyERC721>;
-    deployContract(
-      name: "TokenSale",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.TokenSale>;
+    ): Promise<Contracts.TokenizedBallot>;
 
     // default types
     getContractFactory(
