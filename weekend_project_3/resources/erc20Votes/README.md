@@ -100,5 +100,5 @@ await ballotContract.vote(proposal, { gasLimit: 50000 });
         ✔ renounce role
         ✔ unauthorized renounce
 
-  ### 25 passin
+25 passining
 ```
