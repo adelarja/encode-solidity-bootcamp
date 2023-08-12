@@ -8,7 +8,7 @@ yarn run delegate <contract:string> <address:string>
 yarn run winner:proposal <contract:string>
 yarn run winner:name <contract:string> 
 ```
-## Contract Address: 0xE380Db20c6D3c99199BDA9672C99965decc205a7
+## Contract tokenizedBallot Address: 0x1CBfD193458179C3D8B90E840392FaCfC7A5Ebc4
 
 ## Contract deployment
 
