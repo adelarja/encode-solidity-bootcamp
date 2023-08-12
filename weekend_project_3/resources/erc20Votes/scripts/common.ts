@@ -43,7 +43,7 @@ export async function getWallet() {
 }
 
 export function getProposals() {
-  const proposals = process.argv.slice(2, process.argv.length - 2);
+  const proposals = process.argv.slice(2, process.argv.length - 1);
 
   if (proposals.length < 2) {
 
