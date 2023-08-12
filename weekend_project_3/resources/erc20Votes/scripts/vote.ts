@@ -8,7 +8,7 @@ async function main() {
   console.log(`Voting on contract: ${contractAddres} for proposal ${proposal} `);
 
   const ballotContract = await getTokenizedBallotContractAt(contractAddres);
-  await ballotContract.vote(proposal, amount);
+  await ballotContract.vote(proposal, amount, {gasLimit: 50000});
   
   console.log("Voted!");
 }
