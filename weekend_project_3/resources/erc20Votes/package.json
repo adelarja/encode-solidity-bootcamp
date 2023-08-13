@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "vote": "yarn run ts-node ./scripts/vote.ts",
-    "deploy": "yarn run ts-node ./scripts/deploy.ts",
+    "deployToken": "yarn run ts-node ./scripts/deployToken.ts",
+    "deployTokenizedBallot": "yarn run ts-node ./scripts/deployTokenizedBallot.ts",
     "checkVotingPower": "yarn run ts-node ./scripts/checkVotingPower.ts",
     "viewProposals": "yarn run ts-node ./scripts/viewProposals.ts",
     "delegate": "yarn run ts-node ./scripts/delegate.ts",

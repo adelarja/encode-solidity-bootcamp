@@ -1,7 +1,8 @@
 # Homework week 3
 ## Commands 
 ```
-yarn run deploy <prop1> <prop2> <prop3>  ...
+yarn run deployToken <prop1> <prop2> <prop3>  ...
+yarn run deployTokenizedBallot <prop1> <prop2> <prop3>  ...
 yarn run vote <contract:string> <vote:number>
 yarn run giveRightToVote <contract:string> <address:string>
 yarn run delegate <contract:string> <address:string>
