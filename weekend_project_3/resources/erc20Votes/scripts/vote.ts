@@ -9,7 +9,7 @@ async function main() {
   console.log(`Voting on contract: ${contractAddress} for proposal ${proposal} `);
 
   const ballotContract = await getTokenizedBallotContractAt(contractAddress);
-  await ballotContract.vote(proposal, ethers.parseUnits(amount), {gasLimit: 50000});
+  await ballotContract.vote(proposal, ethers.parseUnits(amount));
   
   console.log("Voted!");
 }
