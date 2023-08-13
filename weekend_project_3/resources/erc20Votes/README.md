@@ -28,8 +28,9 @@ yarn run viewProposals <contract:string> <porposalsCount:number>
 * https://sepolia.etherscan.io/tx/0xd555d1b944b373ae1ff7d64c8af9196c7d8e0d11871d75ba2cc7ce4c114540ba
 
 ## Delegate votes
-* https://sepolia.etherscan.io/tx/0x6d58c363700212e015d0788136ba8977fa0168f0500553ec9088784527e0619d
-* https://sepolia.etherscan.io/tx/0xd2c50c337a01f8d339805260d64fdafe583ce7131dd3721caa1d7b22d8a2d521
+* @adelarja to himself: https://sepolia.etherscan.io/tx/0x6d58c363700212e015d0788136ba8977fa0168f0500553ec9088784527e0619d
+* @adelarja to himself: https://sepolia.etherscan.io/tx/0xd2c50c337a01f8d339805260d64fdafe583ce7131dd3721caa1d7b22d8a2d521
+* @rayman1104 to himself: https://sepolia.etherscan.io/tx/0xd2c50c337a01f8d339805260d64fdafe583ce7131dd3721caa1d7b22d8a2d521
 
 ## Vote
 The next transactions were done by the voters:
@@ -38,9 +39,10 @@ The next transactions were done by the voters:
 * 90 votes to ubuntu by @adelarja: https://sepolia.etherscan.io/tx/0x162f9b748f24bb698899f8d2955cf94cced6bbd9262fd6cb2fa6a5bf5005c5e4
 * 100 votes to macos by @rayman1104: https://sepolia.etherscan.io/tx/0x8bb465ce3098db1ace6a0c318177cf8fecda217c915e4ef1ecf2e39751e03f67
 
-## Vote reverted
-* "trying to vote with more votes than you have" by @adelarja: https://sepolia.etherscan.io/tx/0x73faaaf71242161f755aaaaea3d823b929669f104b5f436af9d94d12c776f9df
-* "trying to vote with more votes than you have" by @rayman1104: https://sepolia.etherscan.io/tx/0x877beca6586f8f06ca61212b6631e091cfdb4c18e4b3f16722c0452639e52999
+## Reverted transactions
+* "trying to vote with more votes than you have" - vote by @adelarja: https://sepolia.etherscan.io/tx/0x73faaaf71242161f755aaaaea3d823b929669f104b5f436af9d94d12c776f9df
+* "trying to vote with more votes than you have" - vote by @rayman1104: https://sepolia.etherscan.io/tx/0x877beca6586f8f06ca61212b6631e091cfdb4c18e4b3f16722c0452639e52999
+* "out of gas" - delegate by @rayman1104 (too low gas limit 50000): https://sepolia.etherscan.io/tx/0x5843a9994a7ba839d142f51986ab89cd610896a03790fb3b2c9363b273ed8bb2
 
 ## Voting results
 ```
