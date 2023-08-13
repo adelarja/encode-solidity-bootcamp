@@ -11,10 +11,10 @@ yarn run checkVotingPower <contract:string>
 yarn run viewProposals <contract:string> <porposalsCount:number>
 ```
 ## TokenizedBallot contract deployment:
-https://sepolia.etherscan.io/address/0x591428406E8D504b6C3DbC3Fa52c84aD391734eb
+* https://sepolia.etherscan.io/address/0x591428406E8D504b6C3DbC3Fa52c84aD391734eb
 
 ## Token Contract deployment
-https://sepolia.etherscan.io/tx/0xf6184c626d48d958d90dfa72c80de4e0a487df2eae07e510eb95c4dc072c952f
+* https://sepolia.etherscan.io/tx/0xf6184c626d48d958d90dfa72c80de4e0a487df2eae07e510eb95c4dc072c952f
 
 ## Token mints
 * https://sepolia.etherscan.io/tx/0xa4e46cd690837186321fe08d0e0ef931103139a2a6723cad6a8abdbf7b2ed804
@@ -25,7 +25,7 @@ https://sepolia.etherscan.io/tx/0xf6184c626d48d958d90dfa72c80de4e0a487df2eae07e5
 * https://sepolia.etherscan.io/tx/0xd640b9e4da7ab06014919f18cfc72d647baa3faec41916443d33fb0d019d0bd3
 
 ## Grant role
-https://sepolia.etherscan.io/tx/0xd555d1b944b373ae1ff7d64c8af9196c7d8e0d11871d75ba2cc7ce4c114540ba
+* https://sepolia.etherscan.io/tx/0xd555d1b944b373ae1ff7d64c8af9196c7d8e0d11871d75ba2cc7ce4c114540ba
 
 ## Delegate votes
 * https://sepolia.etherscan.io/tx/0x6d58c363700212e015d0788136ba8977fa0168f0500553ec9088784527e0619d
