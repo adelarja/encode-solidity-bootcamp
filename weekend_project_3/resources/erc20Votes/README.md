@@ -8,7 +8,9 @@ yarn run delegate <contract:string> <address:string>
 yarn run winner:proposal <contract:string>
 yarn run winner:name <contract:string> 
 ```
-## Contract tokenizedBallot Address:
+## TokenizedBallot contract deployment:
+
+https://sepolia.etherscan.io/address/0x591428406E8D504b6C3DbC3Fa52c84aD391734eb
 
 ## Token Contract deployment
 
@@ -34,7 +36,15 @@ https://sepolia.etherscan.io/tx/0xd2c50c337a01f8d339805260d64fdafe583ce7131dd372
 
 ## Vote
 
-The next transactions were done by the voters (including the chairman):
+The next transactions were done by the voters:
+
+10 votes to ubuntu: https://sepolia.etherscan.io/tx/0x451c4ee8cca5da3817a2a5fc5da12138e5e2e0e266a7a61ec9f6bee5d2fbba87
+
+90 votes to ubuntu (same voter than in the previous transaction): https://sepolia.etherscan.io/tx/0x162f9b748f24bb698899f8d2955cf94cced6bbd9262fd6cb2fa6a5bf5005c5e4
+
+## Vote reverted (not more tokens to vote)
+
+https://sepolia.etherscan.io/tx/0x73faaaf71242161f755aaaaea3d823b929669f104b5f436af9d94d12c776f9df
 
 ## Interesting thing to note
 
