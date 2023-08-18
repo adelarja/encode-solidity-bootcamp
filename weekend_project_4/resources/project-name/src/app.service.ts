@@ -1,20 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import * as tokenJson from './assets/MyToken.json'
+import * as tokenJson from './assets/MyToken.json';
+import * as ballotJson from './assets/TokenizedBallot.json';
 import { ethers } from 'ethers';
 
 const TOKEN_ADDRESS = "0x8DC05594Eb309909A0f411A05E5ccF8B2A9aa59a";
-const TOKENIZED_BALLOT_ADDRESS = "";
 
 @Injectable()
 export class AppService {
   provider: ethers.Provider;
   wallet: ethers.Wallet;
   contract: ethers.Contract;
+  ballotContract: ethers.Contract;
 
   constructor() {
     this.provider = new ethers.JsonRpcProvider(process.env.RPC_ENDPOINT_URL ?? ",");
     this.wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? '', this.provider);
-    this.contract = new ethers.Contract(TOKEN_ADDRESS, tokenJson.abi, this.wallet);
+    this.contract = new ethers.Contract(TOKEN_ADDRESS, tokenJson.abi, this.wallet);  
   }
 
   getHello(): string {
@@ -53,5 +54,20 @@ export class AppService {
     const tx = await this.contract.delegate(address);
     const receipt = await tx.wait();
     return {success: true, txHash: receipt.hash};
+  }
+
+  encodeProposals(proposals: string[]) {
+    if (proposals.length < 2) {
+      throw new Error("Need at least 2 proposals.");
+    }
+    return proposals.map(ethers.encodeBytes32String);
+  }
+
+  async deployTokenizedBallot(proposals: string[], address: string): Promise<any> {
+    const ballotContract = new ethers.ContractFactory(ballotJson.abi, ballotJson.bytecode, this.wallet);
+    const blockNumber = await this.provider.getBlockNumber();
+    const tx = await ballotContract.deploy(this.encodeProposals(proposals), address, blockNumber);
+    await tx.waitForDeployment();
+    return {success: true, address: await tx.getAddress()};
   }
 }

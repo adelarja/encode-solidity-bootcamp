@@ -33,16 +33,11 @@ function WalletInfo() {
       <div>
         <p>Your account address is {address}</p>
         <p>Connected to the network {chain?.name}</p>
-        <WalletAction></WalletAction>
-        <WalletBalance address={address}></WalletBalance>
-        <TokenName></TokenName>
-        <TokenBalance address={address}></TokenBalance>
-        <RandomWord></RandomWord>
-        <TokenAddressFromAPI></TokenAddressFromAPI>
         <RequestTokensToBeMinted address={address}></RequestTokensToBeMinted>
         <GrantRole></GrantRole>
         <MintTokenToAddress></MintTokenToAddress>
         <DelegateVotes></DelegateVotes>
+        <InputList></InputList>
       </div>
     );
   if (isConnecting)
@@ -400,3 +395,80 @@ function DelegateVotes() {
     </div>
   );
 }
+
+function getRequestOptinonsTokenizedBallot(address: string, inputs: any) {
+  const proposals = [...inputs].map((x) => x.value);
+  return {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      address: address,
+      proposals: proposals.slice(0, -1)
+    })
+  };
+}
+
+function InputList() {
+  const [inputs, setInputs] = useState([{ value: '' }]);
+  const [data, setData] = useState<any>(null);
+  const [address, setAddress] = useState("");
+
+  function handleInputChange(index: number, value: string) {
+    const newInputs = [...inputs];
+    newInputs[index].value = value;
+    setInputs(newInputs);
+  };
+
+  const handleAddInput = () => {
+    setInputs([...inputs, { value: '' }]);
+  };
+
+  const handleRemoveInput = (index: number) => {
+    const newInputs = [...inputs];
+    newInputs.splice(index, 1);
+    setInputs(newInputs);
+  };
+
+  if(!data)
+  return (
+    <div>
+       <form>
+        <label>
+          Token Contract Address for Ballot
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </label>
+      </form>
+      {inputs.map((input, index) => (
+        <div key={index}>
+          <input
+            type="text"
+            value={input.value}
+            onChange={(e) => handleInputChange(index, e.target.value)}
+          />
+          <button onClick={() => handleRemoveInput(index)}>Remove</button>
+        </div>
+      ))}
+      <button onClick={handleAddInput}>Add Input</button>
+      <button onClick={
+        () => {
+          fetch("http://localhost:3001/deploy-tokenized-ballot", getRequestOptinonsTokenizedBallot(address, inputs))
+            .then((res) => res.json())
+            .then((data) => {
+              setData(data);
+             });
+        }
+        }>Deploy contract</button>
+    </div>
+  );
+
+  return (
+    <div>
+      <p>Tokenized Ballot Deployed: {data.success ? "Worked" : "Failed"}</p>
+      <p>Contract address: {data.address}</p>
+    </div>
+  );
+};

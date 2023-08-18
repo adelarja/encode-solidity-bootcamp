@@ -45,4 +45,9 @@ export class AppController {
   delegateVotes(@Body() body: MintTokensDto): Promise<any> {
     return this.appService.delegateVotes(body.address);
   }
+
+  @Post('deploy-tokenized-ballot')
+  deployTokenizedBallot(@Body() body: MintTokensDto): Promise<any> {
+    return this.appService.deployTokenizedBallot(body.proposals, body.address);
+  }
 }
