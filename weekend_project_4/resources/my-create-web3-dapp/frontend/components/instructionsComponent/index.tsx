@@ -38,6 +38,7 @@ function WalletInfo() {
         <MintTokenToAddress></MintTokenToAddress>
         <DelegateVotes></DelegateVotes>
         <InputList></InputList>
+        <VoteProposal></VoteProposal>
       </div>
     );
   if (isConnecting)
@@ -472,3 +473,82 @@ function InputList() {
     </div>
   );
 };
+
+function getRequestOptionsVote(contractAddress: string, proposalNumber: number, amountOfVotes: number) {
+  return {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      ballotAddress: contractAddress,
+      proposalNumber: proposalNumber,
+      amountOfVotes: amountOfVotes
+    })
+  }; 
+}
+
+
+function VoteProposal() {
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
+  const [amounOfVotes, setAmounOfVotes] = useState("");
+  const [proposal, setProposal] = useState("");
+
+  if (isLoading) return <p>Requesting tokens from API...</p>;
+  if (!data)
+  return (
+    <div>
+      <form>
+        <label>
+          Ballot Contract address:
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </label>
+      </form>
+      <form>
+        <label>
+          Proposal Number:
+          <input
+            type="text"
+            value={proposal}
+            onChange={(e) => setProposal(e.target.value)}
+          />
+        </label>
+      </form>
+      <form>
+        <label>
+          Amount of votes:
+          <input
+            type="text"
+            value={amounOfVotes}
+            onChange={(e) => setAmounOfVotes(e.target.value)}
+          />
+        </label>
+      </form>
+      <button
+        disabled={isLoading}
+        onClick={() => {
+          setLoading(true);
+          fetch("http://localhost:3001/vote-proposal", getRequestOptionsVote(address, parseInt(proposal), parseInt(amounOfVotes)))
+            .then((res) => res.json())
+            .then((data) => {
+              setData(data);
+              setLoading(false);
+             });
+        }}
+      >
+        Vote
+      </button>
+    </div>
+    );
+
+  return (
+    <div>
+      <p>Voted: {data.success ? "Worked" : "Failed"}</p>
+      <p>Transaction Hash: {data.txHash}</p>
+    </div>
+  );
+}
