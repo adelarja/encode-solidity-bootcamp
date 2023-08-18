@@ -40,4 +40,9 @@ export class AppController {
   grantRole(@Body() body: MintTokensDto): Promise<any> {
     return this.appService.grantRole(body.address);
   }
+
+  @Post('delegate')
+  delegateVotes(@Body() body: MintTokensDto): Promise<any> {
+    return this.appService.delegateVotes(body.address);
+  }
 }

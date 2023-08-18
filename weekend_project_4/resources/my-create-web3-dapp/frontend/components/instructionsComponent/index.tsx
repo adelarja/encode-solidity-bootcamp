@@ -41,6 +41,8 @@ function WalletInfo() {
         <TokenAddressFromAPI></TokenAddressFromAPI>
         <RequestTokensToBeMinted address={address}></RequestTokensToBeMinted>
         <GrantRole></GrantRole>
+        <MintTokenToAddress></MintTokenToAddress>
+        <DelegateVotes></DelegateVotes>
       </div>
     );
   if (isConnecting)
@@ -278,7 +280,7 @@ function GrantRole() {
     <div>
       <form>
         <label>
-          Enter the recipient address:
+          Grant role to this address:
           <input
             type="text"
             value={address}
@@ -309,5 +311,92 @@ function GrantRole() {
       <p>Transaction Hash: {data.txHash}</p>
     </div>
   );
+}
 
+function MintTokenToAddress() {
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
+
+  if (isLoading) return <p>Requesting tokens from API...</p>;
+  if (!data)
+  return (
+    <div>
+      <form>
+        <label>
+          Mint tokens to this address:
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </label>
+      </form>
+      <button
+        disabled={isLoading}
+        onClick={() => {
+          setLoading(true);
+          fetch("http://localhost:3001/mint-tokens", getRequestOptinons(address))
+            .then((res) => res.json())
+            .then((data) => {
+              setData(data);
+              setLoading(false);
+             });
+        }}
+      >
+        Mint to address
+      </button>
+    </div>
+    );
+
+  return (
+    <div>
+      <p>Tokens minted: {data.success ? "Worked" : "Failed"}</p>
+      <p>Transaction Hash: {data.txHash}</p>
+    </div>
+  );
+}
+
+function DelegateVotes() {
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
+
+  if (isLoading) return <p>Requesting tokens from API...</p>;
+  if (!data)
+  return (
+    <div>
+      <form>
+        <label>
+          Delegate Votes to this address:
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </label>
+      </form>
+      <button
+        disabled={isLoading}
+        onClick={() => {
+          setLoading(true);
+          fetch("http://localhost:3001/delegate", getRequestOptinons(address))
+            .then((res) => res.json())
+            .then((data) => {
+              setData(data);
+              setLoading(false);
+             });
+        }}
+      >
+        Delegate
+      </button>
+    </div>
+    );
+
+  return (
+    <div>
+      <p>Votes delegated: {data.success ? "Worked" : "Failed"}</p>
+      <p>Transaction Hash: {data.txHash}</p>
+    </div>
+  );
 }

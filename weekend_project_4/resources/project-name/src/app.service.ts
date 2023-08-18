@@ -48,4 +48,10 @@ export class AppService {
     const receipt = await tx.wait();
     return {success: true, txHash: receipt.hash};
   }
+
+  async delegateVotes(address: string): Promise<any> {
+    const tx = await this.contract.delegate(address);
+    const receipt = await tx.wait();
+    return {success: true, txHash: receipt.hash};
+  }
 }
