@@ -70,4 +70,11 @@ export class AppService {
     await tx.waitForDeployment();
     return {success: true, address: await tx.getAddress()};
   }
+
+  async voteProposal(address: string, proposal: number, amountOfVotes: number): Promise<any> {
+    const ballotContract = new ethers.Contract(address, ballotJson.abi, this.wallet);
+    const tx = await ballotContract.vote(proposal, ethers.parseUnits(String(amountOfVotes)));
+    const receipt = await tx.wait();
+    return {success: true, txHash: receipt.hash};
+  }
 }
