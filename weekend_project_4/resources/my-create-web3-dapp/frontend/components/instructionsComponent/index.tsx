@@ -33,12 +33,14 @@ function WalletInfo() {
       <div>
         <p>Your account address is {address}</p>
         <p>Connected to the network {chain?.name}</p>
+        <WalletAction></WalletAction>
         <RequestTokensToBeMinted address={address}></RequestTokensToBeMinted>
         <GrantRole></GrantRole>
         <MintTokenToAddress></MintTokenToAddress>
         <DelegateVotes></DelegateVotes>
         <InputList></InputList>
         <VoteProposal></VoteProposal>
+        <GetWinningProposal></GetWinningProposal>
       </div>
     );
   if (isConnecting)
@@ -486,7 +488,6 @@ function getRequestOptionsVote(contractAddress: string, proposalNumber: number, 
   }; 
 }
 
-
 function VoteProposal() {
   const [data, setData] = useState<any>(null);
   const [isLoading, setLoading] = useState(false);
@@ -549,6 +550,51 @@ function VoteProposal() {
     <div>
       <p>Voted: {data.success ? "Worked" : "Failed"}</p>
       <p>Transaction Hash: {data.txHash}</p>
+    </div>
+  );
+}
+
+function GetWinningProposal() {
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
+
+  if (isLoading) return <p>Requesting winning proposal...</p>;
+  if (!data)
+  return (
+    <div>
+      <form>
+        <label>
+          Ballot Contract address:
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </label>
+      </form>
+      <button
+        disabled={isLoading}
+        onClick={() => {
+          setLoading(true);
+          fetch(`http://localhost:3001/get-winning-proposal/:${address}`)
+            .then((res) => res.json())
+            .then((data) => {
+              setData(data);
+              setLoading(false);
+             });
+        }}
+      >
+        Get winning proposal
+      </button>
+    </div>
+    );
+
+  return (
+    <div>
+      <p>{String(data)}</p>
+      <p>Winning proposal name: {data.proposalName}</p>
+      <p>Winning proposal votes: {data.votesCount}</p>
     </div>
   );
 }

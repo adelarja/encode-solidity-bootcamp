@@ -77,4 +77,14 @@ export class AppService {
     const receipt = await tx.wait();
     return {success: true, txHash: receipt.hash};
   }
+
+  async getWinningProposal(address: string): Promise<any> {
+    const updatedAddress = address.slice(1);
+    const ballotContract = new ethers.Contract(updatedAddress, ballotJson.abi, this.wallet);
+    const tx = await ballotContract.proposals(await ballotContract.winningProposal());
+    // const receipt = await tx.wait();
+    const proposalName = ethers.decodeBytes32String(tx.name);
+    const votesCount = String(tx.voteCount);
+    return { success: true, txHash: tx.hash, proposalName: proposalName, votesCount: votesCount };
+  }
 }
