@@ -592,7 +592,6 @@ function GetWinningProposal() {
 
   return (
     <div>
-      <p>{String(data)}</p>
       <p>Winning proposal name: {data.proposalName}</p>
       <p>Winning proposal votes: {data.votesCount}</p>
     </div>
