@@ -60,6 +60,7 @@ export class AppController {
     }
   }
 
+  /*
   @Post('delegate')
   @HttpCode(200)
   async delegateVotes(@Body() body: MintTokensDto) {
@@ -92,4 +93,5 @@ export class AppController {
       throw new InternalServerErrorException(error.message);
     }
   }
+  */
 }
