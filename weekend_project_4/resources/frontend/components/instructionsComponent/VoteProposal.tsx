@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { getRequestOptionsVote } from ".";
 import { Button, Input, Typography } from "@mui/joy";
+import { usePrepareContractWrite, useContractWrite } from "wagmi";
+import { parseEther } from "viem";
 
 export function VoteProposal() {
   const [data, setData] = useState<any>(null);
@@ -8,6 +10,34 @@ export function VoteProposal() {
   const [address, setAddress] = useState("");
   const [amountOfVotes, setAmountOfVotes] = useState("");
   const [proposal, setProposal] = useState("");
+
+  const {config} = usePrepareContractWrite({
+    address: address as `0x${string}`,
+    abi: [
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "proposal",
+            "type": "uint256",
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256",
+          }
+        ],
+        "name": "vote",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+    ],
+    functionName: 'vote',
+    args: [proposal, amountOfVotes],
+    value: parseEther('0')
+  });
+  const {write} = useContractWrite(config);
 
   if (!data)
     return (
@@ -45,19 +75,7 @@ export function VoteProposal() {
           onClick={async () => {
             setLoading(true);
             setLoading(false);
-            fetch(
-              "http://localhost:3001/vote-proposal",
-              getRequestOptionsVote(
-                address,
-                parseInt(proposal),
-                parseInt(amountOfVotes)
-              )
-            )
-              .then((res) => res.json())
-              .then((data) => {
-                setData(data);
-                setLoading(false);
-              });
+            write?.();
           }}
         >
            { isLoading ? 'Requesting tokens from API...' : 'Vote'}
