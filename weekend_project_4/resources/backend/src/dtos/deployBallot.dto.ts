@@ -1,9 +1,9 @@
-import { ArrayNotEmpty, ArrayUnique, IsNotEmpty } from 'class-validator';
+import { ArrayMinSize, ArrayUnique, IsNotEmpty } from 'class-validator';
 
 export class DeployBallotDto {
   @IsNotEmpty()
   address: string;
-  @ArrayNotEmpty()
+  @ArrayMinSize(2)
   @ArrayUnique()
   proposals: string[];
 }

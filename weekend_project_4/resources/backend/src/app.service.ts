@@ -15,16 +15,17 @@ export class AppService {
   ballotContract: ethers.Contract;
 
   constructor() {
-    this.provider = new ethers.JsonRpcProvider(
-      process.env.RPC_ENDPOINT_URL ?? ',',
-    );
+    if (!process.env.RPC_ENDPOINT_URL) {
+      throw new Error('No RPC_ENDPOINT_URL provided.');
+    }
+    this.provider = new ethers.JsonRpcProvider(process.env.RPC_ENDPOINT_URL);
     if (process.env.PRIVATE_KEY) {
-      this.wallet = new ethers.Wallet(
-        process.env.PRIVATE_KEY ?? '',
+      this.wallet = new ethers.Wallet(process.env.PRIVATE_KEY, this.provider);
+    } else if (process.env.MNEMONIC) {
+      this.wallet = ethers.Wallet.fromPhrase(
+        process.env.MNEMONIC,
         this.provider,
       );
-    } else if (process.env.MNEMONIC) {
-      this.wallet = ethers.Wallet.fromPhrase(process.env.MNEMONIC);
     } else {
       throw new Error('No private key or mnemonic provided.');
     }
@@ -36,15 +37,11 @@ export class AppService {
     );
   }
 
-  getHello(): string {
+  getHello() {
     return 'Hello World!';
   }
 
-  getAnotherThing(): string {
-    return 'Other Thing';
-  }
-
-  getTokenAddress(): any {
+  getTokenAddress() {
     return { address: TOKEN_ADDRESS };
   }
 
@@ -56,14 +53,14 @@ export class AppService {
     return this.contract.balanceOf(address);
   }
 
-  async mintTokens(address: string): Promise<any> {
+  async mintTokens(address: string) {
     const tx = await this.contract.mint(address, ethers.parseEther('1'));
     const receipt = await tx.wait();
     console.log(JSON.stringify(receipt));
     return { success: true, txHash: receipt.hash };
   }
 
-  async grantRole(address: string): Promise<any> {
+  async grantRole(address: string) {
     const tx = await this.contract.grantRole(
       this.contract.MINTER_ROLE(),
       address,
@@ -72,7 +69,7 @@ export class AppService {
     return { success: true, txHash: receipt.hash };
   }
 
-  async delegateVotes(address: string): Promise<any> {
+  async delegateVotes(address: string) {
     const tx = await this.contract.delegate(address);
     const receipt = await tx.wait();
     return { success: true, txHash: receipt.hash };
@@ -88,7 +85,7 @@ export class AppService {
   async deployTokenizedBallot(
     proposals: string[],
     address: string,
-  ): Promise<any> {
+  ) {
     const ballotContract = new ethers.ContractFactory(
       ballotJson.abi,
       ballotJson.bytecode,
@@ -108,7 +105,7 @@ export class AppService {
     address: string,
     proposal: number,
     amountOfVotes: number,
-  ): Promise<any> {
+  ) {
     const ballotContract = new ethers.Contract(
       address,
       ballotJson.abi,
@@ -122,7 +119,7 @@ export class AppService {
     return { success: true, txHash: receipt.hash };
   }
 
-  async getWinningProposal(address: string): Promise<any> {
+  async getWinningProposal(address: string) {
     const updatedAddress = address.slice(1);
     const ballotContract = new ethers.Contract(
       updatedAddress,

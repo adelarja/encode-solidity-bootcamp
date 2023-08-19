@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  InternalServerErrorException, HttpCode,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { MintTokensDto } from './dtos/mintToken.dto';
 import { VoteBallotDto } from './dtos/voteBallot.dto';
@@ -13,9 +20,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('other-thing')
-  getOtherThing(): string {
-    return this.appService.getAnotherThing();
+  @Get('readyz')
+  readyz(): string {
+    return 'OK';
   }
 
   @Get('get-address')
@@ -24,41 +31,65 @@ export class AppController {
   }
 
   @Get('get-total-supply')
-  getTotalSupply(): Promise<bigint> {
+  async getTotalSupply(): Promise<bigint> {
     return this.appService.getTotalSupply();
   }
 
   @Get('get-token-balance/:address')
-  getTokenBalance(@Param('address') address: string): Promise<bigint> {
+  async getTokenBalance(@Param('address') address: string): Promise<bigint> {
     return this.appService.getTokenBalance(address);
   }
 
   @Post('mint-tokens')
-  mintTokens(@Body() body: MintTokensDto): Promise<any> {
-    return this.appService.mintTokens(body.address);
+  @HttpCode(200)
+  async mintTokens(@Body() body: MintTokensDto) {
+    try {
+      return await this.appService.mintTokens(body.address);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   @Post('grant-role')
-  grantRole(@Body() body: MintTokensDto): Promise<any> {
-    return this.appService.grantRole(body.address);
+  @HttpCode(200)
+  async grantRole(@Body() body: MintTokensDto) {
+    try {
+      return await this.appService.grantRole(body.address);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   @Post('delegate')
-  delegateVotes(@Body() body: MintTokensDto): Promise<any> {
-    return this.appService.delegateVotes(body.address);
+  @HttpCode(200)
+  async delegateVotes(@Body() body: MintTokensDto) {
+    try {
+      return await this.appService.delegateVotes(body.address);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
-  @Post('deploy-tokenized-ballot')
-  deployTokenizedBallot(@Body() body: DeployBallotDto): Promise<any> {
-    return this.appService.deployTokenizedBallot(body.proposals, body.address);
+  @Post('deploy-ballot')
+  async deployTokenizedBallot(@Body() body: DeployBallotDto) {
+    try {
+      return await this.appService.deployTokenizedBallot(body.proposals, body.address);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   @Post('vote-proposal')
-  voteProposal(@Body() body: VoteBallotDto): Promise<any> {
-    return this.appService.voteProposal(
-      body.ballotAddress,
-      body.proposalNumber,
-      body.amountOfVotes,
-    );
+  @HttpCode(200)
+  async voteProposal(@Body() body: VoteBallotDto) {
+    try {
+      return await this.appService.voteProposal(
+        body.ballotAddress,
+        body.proposalNumber,
+        body.amountOfVotes,
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }
