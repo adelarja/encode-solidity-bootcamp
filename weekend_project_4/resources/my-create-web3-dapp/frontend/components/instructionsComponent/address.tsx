@@ -7,7 +7,7 @@ export default function Address(props: Props) {
   return (
     <>
       <Typography level="title-sm">
-        Your account address is:&nbsp; 
+        Your account address is:&nbsp;
         {props.address}
       </Typography>
     </>

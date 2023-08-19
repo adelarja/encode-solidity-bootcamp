@@ -1,4 +1,4 @@
-import { Button, Modal, ModalClose, ModalDialog, Typography } from "@mui/joy";
+import { Button, Typography } from "@mui/joy";
 import { useState } from "react";
 
 export function RequestTokensToBeMinted(params: { address: `0x${string}` }) {

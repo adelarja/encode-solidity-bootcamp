@@ -16,11 +16,11 @@ export function SignMessage() {
   },[isError])
   return (
     <div>
-          <Textarea
-            minRows={5}
-            value={signatureMessage}
-            onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => setSignatureMessage(e.target.value)}
-          />
+      <Textarea
+        minRows={5}
+        value={signatureMessage}
+        onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => setSignatureMessage(e.target.value)}
+      />
       <Button
        sx={{ my: 1 }}
          variant="solid"

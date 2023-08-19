@@ -12,6 +12,7 @@ import { GrantRole } from "./GrantRole";
 import { MintTokenToAddress } from "./MintTokenToAddress";
 import { DelegateVotes } from "./DelegateVotes";
 import { InputList } from "./InputList";
+
 export default function InstructionsComponent() {
   return (
     <div className={styles.container}>
@@ -46,10 +47,10 @@ function WalletInfo() {
         <Divider orientation="horizontal" />
         <SignMessage />
           <Divider orientation="horizontal" />
-        {address !== undefined &&<RequestTokensToBeMinted address={address}/> } 
-         
-        
-     
+        {address !== undefined &&<RequestTokensToBeMinted address={address}/> }
+
+
+
         <Divider orientation="horizontal" />
         <GrantRole/>
         <Divider orientation="horizontal" />
@@ -216,7 +217,7 @@ function TokenAddressFromAPI() {
   );
 }
 
-export function getRequestOptinons(address: string) {
+export function getRequestOptions(address: string) {
   return {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -224,7 +225,7 @@ export function getRequestOptinons(address: string) {
   };
 }
 
-export function getRequestOptinonsTokenizedBallot(address: string, inputs: any) {
+export function getRequestOptionsTokenizedBallot(address: string, inputs: any) {
   const proposals = [...inputs].map((x) => x.value);
   return {
     method: "POST",

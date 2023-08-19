@@ -1,4 +1,5 @@
 "use client";
+import * as React from 'react';
 import { WagmiConfig, createConfig } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import Navbar from "@/components/instructionsComponent/navigation/navbar";
@@ -7,6 +8,7 @@ import { sepolia } from "@wagmi/core";
 
 const config = createConfig(
   getDefaultConfig({
+    walletConnectProjectId: "hw4",
     appName: 'Homework week 4',
     chains: [sepolia],
   })

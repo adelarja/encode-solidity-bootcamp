@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getRequestOptinons } from ".";
+import { getRequestOptions } from ".";
 import { Button, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
 
@@ -28,7 +28,7 @@ export function GrantRole() {
             setLoading(true);
             fetch(
               "http://localhost:3001/grant-role",
-              getRequestOptinons(address)
+              getRequestOptions(address)
             )
               .then((res) => res.json())
               .then((data) => {
