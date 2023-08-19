@@ -40,6 +40,11 @@ export class AppController {
     return this.appService.getTokenBalance(address);
   }
 
+  @Get('get-winning-proposal/:address')
+  async getWinningProposal(@Param('address') address: string): Promise<any> {
+    return this.appService.getWinningProposal(address);
+  }
+
   @Post('mint-tokens')
   @HttpCode(200)
   async mintTokens(@Body() body: MintTokensDto) {
@@ -60,7 +65,6 @@ export class AppController {
     }
   }
 
-  /*
   @Post('delegate')
   @HttpCode(200)
   async delegateVotes(@Body() body: MintTokensDto) {
@@ -93,5 +97,4 @@ export class AppController {
       throw new InternalServerErrorException(error.message);
     }
   }
-  */
 }
