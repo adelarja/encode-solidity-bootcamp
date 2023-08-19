@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getRequestOptinons } from ".";
+import { getRequestOptions } from ".";
 import { Button, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
 
@@ -27,7 +27,7 @@ export function DelegateVotes() {
           variant="solid"
           onClick={() => {
             setLoading(true);
-            fetch("http://localhost:3001/delegate", getRequestOptinons(address))
+            fetch("http://localhost:3001/delegate", getRequestOptions(address))
               .then((res) => res.json())
               .then((data) => {
                 setData(data);

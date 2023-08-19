@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getRequestOptinons } from ".";
+import { getRequestOptions } from ".";
 import { Button, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
 
@@ -27,7 +27,7 @@ export function MintTokenToAddress() {
             setLoading(true);
             fetch(
               "http://localhost:3001/mint-tokens",
-              getRequestOptinons(address)
+              getRequestOptions(address)
             )
               .then((res) => res.json())
               .then((data) => {

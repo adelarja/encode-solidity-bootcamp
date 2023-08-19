@@ -6,12 +6,12 @@ export function VoteProposal() {
   const [data, setData] = useState<any>(null);
   const [isLoading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
-  const [amounOfVotes, setAmounOfVotes] = useState("");
+  const [amountOfVotes, setAmountOfVotes] = useState("");
   const [proposal, setProposal] = useState("");
 
   if (!data)
     return (
-        <div>
+      <div>
         <Input
           sx={{ my: 1 }}
           color="primary"
@@ -35,8 +35,8 @@ export function VoteProposal() {
           color="primary"
           size="md"
           variant="outlined"
-          value={amounOfVotes}
-          onChange={(e) => setAmounOfVotes(e.target.value)}
+          value={amountOfVotes}
+          onChange={(e) => setAmountOfVotes(e.target.value)}
           placeholder="Amount of votes:"
         />
         <Button
@@ -50,7 +50,7 @@ export function VoteProposal() {
               getRequestOptionsVote(
                 address,
                 parseInt(proposal),
-                parseInt(amounOfVotes)
+                parseInt(amountOfVotes)
               )
             )
               .then((res) => res.json())
@@ -61,19 +61,18 @@ export function VoteProposal() {
           }}
         >
            { isLoading ? 'Requesting tokens from API...' : 'Vote'}
-          
         </Button>
       </div>
     );
 
   return (
     <div>
-       <Typography level="h4" textAlign={"center"}>
-       Voted: {data.success ? "Worked" : "Failed"}
-       </Typography>
-       <Typography level="h4" textAlign={"center"}>
-       Transaction Hash: {data.txHash}
-       </Typography>
+      <Typography level="h4" textAlign={"center"}>
+        Voted: {data.success ? "Worked" : "Failed"}
+      </Typography>
+      <Typography level="h4" textAlign={"center"}>
+        Transaction Hash: {data.txHash}
+      </Typography>
     </div>
   );
 }

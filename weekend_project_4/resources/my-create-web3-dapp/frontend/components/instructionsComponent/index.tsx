@@ -12,6 +12,7 @@ import { GrantRole } from "./GrantRole";
 import { MintTokenToAddress } from "./MintTokenToAddress";
 import { DelegateVotes } from "./DelegateVotes";
 import { InputList } from "./InputList";
+
 export default function InstructionsComponent() {
   return (
     <div className={styles.container}>
@@ -20,16 +21,16 @@ export default function InstructionsComponent() {
           <h1>Voting app</h1>
         </div>
       </header>
-      <p className={styles.get_started}>
+      <div className={styles.get_started}>
         <PageBody></PageBody>
-      </p>
+      </div>
     </div>
   );
 }
 
 function PageBody() {
   return (
-    <div>
+    <div suppressHydrationWarning={true}>
       <WalletInfo></WalletInfo>
     </div>
   );
@@ -38,7 +39,11 @@ function PageBody() {
 function WalletInfo() {
   const { address, isConnecting, isConnected, isDisconnected } = useAccount();
   const { chain } = useNetwork();
-  if (isConnected)
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true)
+  }, []);
+  if (mounted && isConnected)
     return (
       <Card size="md" variant="soft"   sx={{ minWidth: "40em",maxWidth: "40em" }}>
        {address !== undefined && <Address address={address} />}
@@ -46,10 +51,8 @@ function WalletInfo() {
         <Divider orientation="horizontal" />
         <SignMessage />
           <Divider orientation="horizontal" />
-        {address !== undefined &&<RequestTokensToBeMinted address={address}/> } 
-         
-        
-     
+        {address !== undefined &&<RequestTokensToBeMinted address={address}/> }
+
         <Divider orientation="horizontal" />
         <GrantRole/>
         <Divider orientation="horizontal" />
@@ -63,7 +66,7 @@ function WalletInfo() {
         <GetWinningProposal/>
       </Card>
     );
-  if (isConnecting)
+  if (mounted && isConnecting)
     return (
       <Card variant="outlined" sx={{ width: 343, display: "flex", gap: 2 }}>
         <AspectRatio ratio="21/9">
@@ -216,7 +219,7 @@ function TokenAddressFromAPI() {
   );
 }
 
-export function getRequestOptinons(address: string) {
+export function getRequestOptions(address: string) {
   return {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -224,7 +227,7 @@ export function getRequestOptinons(address: string) {
   };
 }
 
-export function getRequestOptinonsTokenizedBallot(address: string, inputs: any) {
+export function getRequestOptionsTokenizedBallot(address: string, inputs: any) {
   const proposals = [...inputs].map((x) => x.value);
   return {
     method: "POST",
