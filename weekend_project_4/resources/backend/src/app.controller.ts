@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MintTokensDto } from './dtos/mintToken.dto';
 import { VoteBallotDto } from './dtos/voteBallot.dto';

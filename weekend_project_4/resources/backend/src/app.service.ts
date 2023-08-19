@@ -9,7 +9,7 @@ const TOKEN_ADDRESS = '0x8DC05594Eb309909A0f411A05E5ccF8B2A9aa59a';
 @Injectable()
 export class AppService {
   provider: ethers.Provider;
-  wallet: ethers.Wallet;
+  wallet: ethers.Wallet | ethers.HDNodeWallet;
   contract: ethers.Contract;
   ballotContract: ethers.Contract;
 
@@ -17,10 +17,17 @@ export class AppService {
     this.provider = new ethers.JsonRpcProvider(
       process.env.RPC_ENDPOINT_URL ?? ',',
     );
-    this.wallet = new ethers.Wallet(
-      process.env.PRIVATE_KEY ?? '',
-      this.provider,
-    );
+    if (process.env.PRIVATE_KEY) {
+      this.wallet = new ethers.Wallet(
+        process.env.PRIVATE_KEY ?? '',
+        this.provider,
+      );
+    } else if (process.env.MNEMONIC) {
+      this.wallet = ethers.Wallet.fromPhrase(process.env.MNEMONIC);
+    } else {
+      throw new Error('No private key or mnemonic provided.');
+    }
+
     this.contract = new ethers.Contract(
       TOKEN_ADDRESS,
       tokenJson.abi,
