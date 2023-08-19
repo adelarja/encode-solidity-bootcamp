@@ -32,11 +32,6 @@ export class AppController {
     return this.appService.getTokenBalance(address);
   }
 
-  @Get('get-winning-proposal/:address')
-  getWinningProposal(@Param('address') address: string): Promise<any> {
-    return this.appService.getWinningProposal(address);
-  }
-
   @Post('mint-tokens')
   mintTokens(@Body() body: MintTokensDto): Promise<any> {
     return this.appService.mintTokens(body.address);

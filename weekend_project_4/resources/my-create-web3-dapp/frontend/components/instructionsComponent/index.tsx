@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
 import styles from "./instructionsComponent.module.css";
-import { useAccount, useBalance, useContractRead, useNetwork, useSignMessage } from "wagmi";
-
+import { useAccount, useBalance, useContractRead, useNetwork } from "wagmi";
+import { AspectRatio, Card, Divider, Skeleton } from "@mui/joy";
+import Address from "./address";
+import ChainName from "./chainName";
+import { SignMessage } from "./SignMessage";
+import { RequestTokensToBeMinted } from "./RequestTokensToBeMinted";
+import { GetWinningProposal } from "./GetWinningProposal";
+import { VoteProposal } from "./VoteProposal";
+import { GrantRole } from "./GrantRole";
+import { MintTokenToAddress } from "./MintTokenToAddress";
+import { DelegateVotes } from "./DelegateVotes";
+import { InputList } from "./InputList";
 export default function InstructionsComponent() {
   return (
     <div className={styles.container}>
       <header className={styles.header_container}>
         <div className={styles.header}>
-          <h1>My App</h1>
+          <h1>Voting app</h1>
         </div>
       </header>
       <p className={styles.get_started}>
@@ -26,28 +36,45 @@ function PageBody() {
 }
 
 function WalletInfo() {
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isConnecting, isConnected, isDisconnected } = useAccount();
   const { chain } = useNetwork();
-  if (address)
+  if (isConnected)
     return (
-      <div>
-        <p>Your account address is {address}</p>
-        <p>Connected to the network {chain?.name}</p>
-        <WalletAction></WalletAction>
-        <RequestTokensToBeMinted address={address}></RequestTokensToBeMinted>
-        <GrantRole></GrantRole>
-        <MintTokenToAddress></MintTokenToAddress>
-        <DelegateVotes></DelegateVotes>
+      <Card size="md" variant="soft"   sx={{ minWidth: "40em",maxWidth: "40em" }}>
+       {address !== undefined && <Address address={address} />}
+        {chain && <ChainName name={chain.name} />}
+        <Divider orientation="horizontal" />
+        <SignMessage />
+          <Divider orientation="horizontal" />
+        {address !== undefined &&<RequestTokensToBeMinted address={address}/> } 
+         
+        
+     
+        <Divider orientation="horizontal" />
+        <GrantRole/>
+        <Divider orientation="horizontal" />
+        <MintTokenToAddress/>
+        <DelegateVotes/>
+        <Divider orientation="horizontal" />
         <InputList></InputList>
-        <VoteProposal></VoteProposal>
-        <GetWinningProposal></GetWinningProposal>
-      </div>
+        <Divider orientation="horizontal" />
+        <VoteProposal/>
+        <Divider orientation="horizontal" />
+        <GetWinningProposal/>
+      </Card>
     );
   if (isConnecting)
     return (
-      <div>
-        <p>Loading...</p>
-      </div>
+      <Card variant="outlined" sx={{ width: 343, display: "flex", gap: 2 }}>
+        <AspectRatio ratio="21/9">
+          <Skeleton variant="overlay">
+            <img
+              alt=""
+              src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+            />
+          </Skeleton>
+        </AspectRatio>
+      </Card>
     );
   if (isDisconnected)
     return (
@@ -58,38 +85,6 @@ function WalletInfo() {
   return (
     <div>
       <p>Connect wallet to continue</p>
-    </div>
-  );
-}
-
-function WalletAction() {
-  const [signatureMessage, setSignatureMessage] = useState("");
-
-  const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage();
-  return (
-    <div>
-      <form>
-        <label>
-          Enter the message to be signed:
-          <input
-            type="text"
-            value={signatureMessage}
-            onChange={(e) => setSignatureMessage(e.target.value)}
-          />
-        </label>
-      </form>
-      <button
-        disabled={isLoading}
-        onClick={() =>
-          signMessage({
-            message: signatureMessage,
-          })
-        }
-      >
-        Sign message
-      </button>
-      {isSuccess && <div>Signature: {data}</div>}
-      {isError && <div>Error signing message</div>}
     </div>
   );
 }
@@ -221,379 +216,38 @@ function TokenAddressFromAPI() {
   );
 }
 
-function RequestTokensToBeMinted(params: {address: `0x${string}`}) {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setLoading] = useState(false);
-
-  if (isLoading) return <p>Requesting tokens from API...</p>;
-  const requestOptions = {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({address: params.address})
-
-  };
-  if (!data)
-  return (
-    <button
-      disabled={isLoading}
-      onClick={() => {
-        setLoading(true);
-        fetch("http://localhost:3001/mint-tokens", requestOptions)
-          .then((res) => res.json())
-          .then((data) => {
-            setData(data);
-            setLoading(false);
-            });
-      }}
-    >
-      Request mint tokens
-    </button>
-    );
-
-  return (
-    <div>
-      <p>Mint success: {data.success ? "Worked" : "Failed"}</p>
-      <p>Transaction Hash: {data.txHash}</p>
-    </div>
-  );
-
-}
-
-function getRequestOptinons(address: string) {
+export function getRequestOptinons(address: string) {
   return {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({address: address})
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ address: address }),
   };
 }
 
-function GrantRole() {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setLoading] = useState(false);
-  const [address, setAddress] = useState("");
-
-  if (isLoading) return <p>Requesting tokens from API...</p>;
-  if (!data)
-  return (
-    <div>
-      <form>
-        <label>
-          Grant role to this address:
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </label>
-      </form>
-      <button
-        disabled={isLoading}
-        onClick={() => {
-          setLoading(true);
-          fetch("http://localhost:3001/grant-role", getRequestOptinons(address))
-            .then((res) => res.json())
-            .then((data) => {
-              setData(data);
-              setLoading(false);
-             });
-        }}
-      >
-        Grant Role
-      </button>
-    </div>
-    );
-
-  return (
-    <div>
-      <p>Role granted: {data.success ? "Worked" : "Failed"}</p>
-      <p>Transaction Hash: {data.txHash}</p>
-    </div>
-  );
-}
-
-function MintTokenToAddress() {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setLoading] = useState(false);
-  const [address, setAddress] = useState("");
-
-  if (isLoading) return <p>Requesting tokens from API...</p>;
-  if (!data)
-  return (
-    <div>
-      <form>
-        <label>
-          Mint tokens to this address:
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </label>
-      </form>
-      <button
-        disabled={isLoading}
-        onClick={() => {
-          setLoading(true);
-          fetch("http://localhost:3001/mint-tokens", getRequestOptinons(address))
-            .then((res) => res.json())
-            .then((data) => {
-              setData(data);
-              setLoading(false);
-             });
-        }}
-      >
-        Mint to address
-      </button>
-    </div>
-    );
-
-  return (
-    <div>
-      <p>Tokens minted: {data.success ? "Worked" : "Failed"}</p>
-      <p>Transaction Hash: {data.txHash}</p>
-    </div>
-  );
-}
-
-function DelegateVotes() {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setLoading] = useState(false);
-  const [address, setAddress] = useState("");
-
-  if (isLoading) return <p>Requesting tokens from API...</p>;
-  if (!data)
-  return (
-    <div>
-      <form>
-        <label>
-          Delegate Votes to this address:
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </label>
-      </form>
-      <button
-        disabled={isLoading}
-        onClick={() => {
-          setLoading(true);
-          fetch("http://localhost:3001/delegate", getRequestOptinons(address))
-            .then((res) => res.json())
-            .then((data) => {
-              setData(data);
-              setLoading(false);
-             });
-        }}
-      >
-        Delegate
-      </button>
-    </div>
-    );
-
-  return (
-    <div>
-      <p>Votes delegated: {data.success ? "Worked" : "Failed"}</p>
-      <p>Transaction Hash: {data.txHash}</p>
-    </div>
-  );
-}
-
-function getRequestOptinonsTokenizedBallot(address: string, inputs: any) {
+export function getRequestOptinonsTokenizedBallot(address: string, inputs: any) {
   const proposals = [...inputs].map((x) => x.value);
   return {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       address: address,
-      proposals: proposals.slice(0, -1)
-    })
+      proposals: proposals.slice(0, -1),
+    }),
   };
 }
 
-function InputList() {
-  const [inputs, setInputs] = useState([{ value: '' }]);
-  const [data, setData] = useState<any>(null);
-  const [address, setAddress] = useState("");
-
-  function handleInputChange(index: number, value: string) {
-    const newInputs = [...inputs];
-    newInputs[index].value = value;
-    setInputs(newInputs);
-  };
-
-  const handleAddInput = () => {
-    setInputs([...inputs, { value: '' }]);
-  };
-
-  const handleRemoveInput = (index: number) => {
-    const newInputs = [...inputs];
-    newInputs.splice(index, 1);
-    setInputs(newInputs);
-  };
-
-  if(!data)
-  return (
-    <div>
-       <form>
-        <label>
-          Token Contract Address for Ballot
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </label>
-      </form>
-      {inputs.map((input, index) => (
-        <div key={index}>
-          <input
-            type="text"
-            value={input.value}
-            onChange={(e) => handleInputChange(index, e.target.value)}
-          />
-          <button onClick={() => handleRemoveInput(index)}>Remove</button>
-        </div>
-      ))}
-      <button onClick={handleAddInput}>Add Input</button>
-      <button onClick={
-        () => {
-          fetch("http://localhost:3001/deploy-tokenized-ballot", getRequestOptinonsTokenizedBallot(address, inputs))
-            .then((res) => res.json())
-            .then((data) => {
-              setData(data);
-             });
-        }
-        }>Deploy contract</button>
-    </div>
-  );
-
-  return (
-    <div>
-      <p>Tokenized Ballot Deployed: {data.success ? "Worked" : "Failed"}</p>
-      <p>Contract address: {data.address}</p>
-    </div>
-  );
-};
-
-function getRequestOptionsVote(contractAddress: string, proposalNumber: number, amountOfVotes: number) {
+export function getRequestOptionsVote(
+  contractAddress: string,
+  proposalNumber: number,
+  amountOfVotes: number
+) {
   return {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ballotAddress: contractAddress,
       proposalNumber: proposalNumber,
-      amountOfVotes: amountOfVotes
-    })
-  }; 
-}
-
-function VoteProposal() {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setLoading] = useState(false);
-  const [address, setAddress] = useState("");
-  const [amounOfVotes, setAmounOfVotes] = useState("");
-  const [proposal, setProposal] = useState("");
-
-  if (isLoading) return <p>Requesting tokens from API...</p>;
-  if (!data)
-  return (
-    <div>
-      <form>
-        <label>
-          Ballot Contract address:
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </label>
-      </form>
-      <form>
-        <label>
-          Proposal Number:
-          <input
-            type="text"
-            value={proposal}
-            onChange={(e) => setProposal(e.target.value)}
-          />
-        </label>
-      </form>
-      <form>
-        <label>
-          Amount of votes:
-          <input
-            type="text"
-            value={amounOfVotes}
-            onChange={(e) => setAmounOfVotes(e.target.value)}
-          />
-        </label>
-      </form>
-      <button
-        disabled={isLoading}
-        onClick={() => {
-          setLoading(true);
-          fetch("http://localhost:3001/vote-proposal", getRequestOptionsVote(address, parseInt(proposal), parseInt(amounOfVotes)))
-            .then((res) => res.json())
-            .then((data) => {
-              setData(data);
-              setLoading(false);
-             });
-        }}
-      >
-        Vote
-      </button>
-    </div>
-    );
-
-  return (
-    <div>
-      <p>Voted: {data.success ? "Worked" : "Failed"}</p>
-      <p>Transaction Hash: {data.txHash}</p>
-    </div>
-  );
-}
-
-function GetWinningProposal() {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setLoading] = useState(false);
-  const [address, setAddress] = useState("");
-
-  if (isLoading) return <p>Requesting winning proposal...</p>;
-  if (!data)
-  return (
-    <div>
-      <form>
-        <label>
-          Ballot Contract address:
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </label>
-      </form>
-      <button
-        disabled={isLoading}
-        onClick={() => {
-          setLoading(true);
-          fetch(`http://localhost:3001/get-winning-proposal/:${address}`)
-            .then((res) => res.json())
-            .then((data) => {
-              setData(data);
-              setLoading(false);
-             });
-        }}
-      >
-        Get winning proposal
-      </button>
-    </div>
-    );
-
-  return (
-    <div>
-      <p>Winning proposal name: {data.proposalName}</p>
-      <p>Winning proposal votes: {data.votesCount}</p>
-    </div>
-  );
+      amountOfVotes: amountOfVotes,
+    }),
+  };
 }
