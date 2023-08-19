@@ -2,6 +2,7 @@ import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MintTokensDto } from './dtos/mintToken.dto';
 import { VoteBallotDto } from './dtos/voteBallot.dto';
+import { DeployBallotDto } from './dtos/deployBallot.dto';
 
 @Controller()
 export class AppController {
@@ -48,12 +49,16 @@ export class AppController {
   }
 
   @Post('deploy-tokenized-ballot')
-  deployTokenizedBallot(@Body() body: MintTokensDto): Promise<any> {
+  deployTokenizedBallot(@Body() body: DeployBallotDto): Promise<any> {
     return this.appService.deployTokenizedBallot(body.proposals, body.address);
   }
 
   @Post('vote-proposal')
   voteProposal(@Body() body: VoteBallotDto): Promise<any> {
-    return this.appService.voteProposal(body.ballotAddress, body.proposalNumber, body.amountOfVotes);
+    return this.appService.voteProposal(
+      body.ballotAddress,
+      body.proposalNumber,
+      body.amountOfVotes,
+    );
   }
 }

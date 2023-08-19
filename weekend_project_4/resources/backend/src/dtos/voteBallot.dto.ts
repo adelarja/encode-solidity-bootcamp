@@ -1,8 +1,10 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class VoteBallotDto {
-    // @ApiProperty({type: string})
-    ballotAddress: string;
-    proposalNumber: number;
-    amountOfVotes: number;
+  @ApiProperty()
+  ballotAddress: string;
+  @ApiProperty()
+  proposalNumber: number;
+  @ApiProperty()
+  amountOfVotes: number;
 }

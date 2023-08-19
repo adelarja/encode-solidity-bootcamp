@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
+
 dotenv.config();
 
 async function bootstrap() {
@@ -19,4 +20,5 @@ async function bootstrap() {
 
   await app.listen(3001);
 }
-bootstrap();
+
+bootstrap().then(() => console.log('Server running on port 3001'));

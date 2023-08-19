@@ -3,8 +3,9 @@ import * as tokenJson from './assets/MyToken.json';
 import * as ballotJson from './assets/TokenizedBallot.json';
 import { ethers } from 'ethers';
 import * as dotenv from 'dotenv';
+
 dotenv.config();
-const TOKEN_ADDRESS = '0x8DC05594Eb309909A0f411A05E5ccF8B2A9aa59a';
+const TOKEN_ADDRESS = process.env.TOKEN_ADDRESS;
 
 @Injectable()
 export class AppService {

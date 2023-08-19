@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class MintTokensDto {
+export class DeployBallotDto {
   @ApiProperty()
   address: string;
+  @ApiProperty()
+  proposals: string[];
 }
