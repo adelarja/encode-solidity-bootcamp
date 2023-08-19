@@ -32,7 +32,7 @@ describe("Testing ERC20 Ballot", async () => {
     await myTokenContract_.delegate(deployer);
 
     const tokenizedBallotFactory = new TokenizedBallot__factory(deployer);
-    const blockNumber = await ethers.provider.getBlockNumber();
+    const blockNumber = (await ethers.provider.getBlockNumber()) * 100;
     const tokenizedBallotContract_ = await tokenizedBallotFactory.deploy(getProposals().bytes, await myTokenContract_.getAddress(), blockNumber);
     await tokenizedBallotContract_.waitForDeployment();
 
@@ -97,7 +97,9 @@ describe("Testing ERC20 Ballot", async () => {
     })
     describe("testing votes ", async () => {
       it("voting power", async () => {
-        const power = await TokenizedBallotContract.votingPower(deployer);
+        await myTokenContract.mint(acc1,amount100);
+        await myTokenContract.connect(acc1).delegate(acc1);
+        const power = await TokenizedBallotContract.votingPower(acc1);
         expect(power).equal(amount100);
       })
       it("vote in one propose", async () => {

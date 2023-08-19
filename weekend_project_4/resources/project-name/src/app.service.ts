@@ -3,7 +3,7 @@ import * as tokenJson from './assets/MyToken.json';
 import * as ballotJson from './assets/TokenizedBallot.json';
 import { ethers } from 'ethers';
 
-const TOKEN_ADDRESS = "0x8DC05594Eb309909A0f411A05E5ccF8B2A9aa59a";
+const TOKEN_ADDRESS = '0x8DC05594Eb309909A0f411A05E5ccF8B2A9aa59a';
 
 @Injectable()
 export class AppService {
@@ -13,9 +13,18 @@ export class AppService {
   ballotContract: ethers.Contract;
 
   constructor() {
-    this.provider = new ethers.JsonRpcProvider(process.env.RPC_ENDPOINT_URL ?? ",");
-    this.wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? '', this.provider);
-    this.contract = new ethers.Contract(TOKEN_ADDRESS, tokenJson.abi, this.wallet);  
+    this.provider = new ethers.JsonRpcProvider(
+      process.env.RPC_ENDPOINT_URL ?? ',',
+    );
+    this.wallet = new ethers.Wallet(
+      process.env.PRIVATE_KEY ?? '',
+      this.provider,
+    );
+    this.contract = new ethers.Contract(
+      TOKEN_ADDRESS,
+      tokenJson.abi,
+      this.wallet,
+    );
   }
 
   getHello(): string {
@@ -23,11 +32,11 @@ export class AppService {
   }
 
   getAnotherThing(): string {
-    return "Other Thing";
+    return 'Other Thing';
   }
 
   getTokenAddress(): any {
-    return {address: TOKEN_ADDRESS};
+    return { address: TOKEN_ADDRESS };
   }
 
   getTotalSupply(): Promise<bigint> {
@@ -39,43 +48,68 @@ export class AppService {
   }
 
   async mintTokens(address: string): Promise<any> {
-    const tx = await this.contract.mint(address, ethers.parseEther("1"));
+    const tx = await this.contract.mint(address, ethers.parseEther('1'));
     const receip = await tx.wait();
-    return {success: true, txHash: receip.hash};
+    return { success: true, txHash: receip.hash };
   }
 
   async grantRole(address: string): Promise<any> {
-    const tx = await this.contract.grantRole(this.contract.MINTER_ROLE(), address);
+    const tx = await this.contract.grantRole(
+      this.contract.MINTER_ROLE(),
+      address,
+    );
     const receipt = await tx.wait();
-    return {success: true, txHash: receipt.hash};
+    return { success: true, txHash: receipt.hash };
   }
 
   async delegateVotes(address: string): Promise<any> {
     const tx = await this.contract.delegate(address);
     const receipt = await tx.wait();
-    return {success: true, txHash: receipt.hash};
+    return { success: true, txHash: receipt.hash };
   }
 
   encodeProposals(proposals: string[]) {
     if (proposals.length < 2) {
-      throw new Error("Need at least 2 proposals.");
+      throw new Error('Need at least 2 proposals.');
     }
     return proposals.map(ethers.encodeBytes32String);
   }
 
-  async deployTokenizedBallot(proposals: string[], address: string): Promise<any> {
-    const ballotContract = new ethers.ContractFactory(ballotJson.abi, ballotJson.bytecode, this.wallet);
+  async deployTokenizedBallot(
+    proposals: string[],
+    address: string,
+  ): Promise<any> {
+    const ballotContract = new ethers.ContractFactory(
+      ballotJson.abi,
+      ballotJson.bytecode,
+      this.wallet,
+    );
     const blockNumber = await this.provider.getBlockNumber();
-    const tx = await ballotContract.deploy(this.encodeProposals(proposals), address, blockNumber);
+    const tx = await ballotContract.deploy(
+      this.encodeProposals(proposals),
+      address,
+      blockNumber,
+    );
     await tx.waitForDeployment();
-    return {success: true, address: await tx.getAddress()};
+    return { success: true, address: await tx.getAddress() };
   }
 
-  async voteProposal(address: string, proposal: number, amountOfVotes: number): Promise<any> {
-    const ballotContract = new ethers.Contract(address, ballotJson.abi, this.wallet);
-    const tx = await ballotContract.vote(proposal, ethers.parseUnits(String(amountOfVotes)));
+  async voteProposal(
+    address: string,
+    proposal: number,
+    amountOfVotes: number,
+  ): Promise<any> {
+    const ballotContract = new ethers.Contract(
+      address,
+      ballotJson.abi,
+      this.wallet,
+    );
+    const tx = await ballotContract.vote(
+      proposal,
+      ethers.parseUnits(String(amountOfVotes)),
+    );
     const receipt = await tx.wait();
-    return {success: true, txHash: receipt.hash};
+    return { success: true, txHash: receipt.hash };
   }
 
   async getWinningProposal(address: string): Promise<any> {
