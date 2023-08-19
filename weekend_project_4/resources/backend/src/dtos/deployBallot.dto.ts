@@ -1,8 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ArrayNotEmpty, ArrayUnique, IsNotEmpty } from 'class-validator';
 
 export class DeployBallotDto {
-  @ApiProperty()
+  @IsNotEmpty()
   address: string;
-  @ApiProperty()
+  @ArrayNotEmpty()
+  @ArrayUnique()
   proposals: string[];
 }

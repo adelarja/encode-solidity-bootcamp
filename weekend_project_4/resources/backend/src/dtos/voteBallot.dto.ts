@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumberString } from 'class-validator';
 
 export class VoteBallotDto {
-  @ApiProperty()
+  @IsNotEmpty()
   ballotAddress: string;
-  @ApiProperty()
+  @IsNumberString()
   proposalNumber: number;
-  @ApiProperty()
+  @IsNumberString()
   amountOfVotes: number;
 }
