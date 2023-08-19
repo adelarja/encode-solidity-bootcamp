@@ -21,16 +21,16 @@ export default function InstructionsComponent() {
           <h1>Voting app</h1>
         </div>
       </header>
-      <p className={styles.get_started}>
+      <div className={styles.get_started}>
         <PageBody></PageBody>
-      </p>
+      </div>
     </div>
   );
 }
 
 function PageBody() {
   return (
-    <div>
+    <div suppressHydrationWarning={true}>
       <WalletInfo></WalletInfo>
     </div>
   );
@@ -39,7 +39,11 @@ function PageBody() {
 function WalletInfo() {
   const { address, isConnecting, isConnected, isDisconnected } = useAccount();
   const { chain } = useNetwork();
-  if (isConnected)
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true)
+  }, []);
+  if (mounted && isConnected)
     return (
       <Card size="md" variant="soft"   sx={{ minWidth: "40em",maxWidth: "40em" }}>
        {address !== undefined && <Address address={address} />}
@@ -48,8 +52,6 @@ function WalletInfo() {
         <SignMessage />
           <Divider orientation="horizontal" />
         {address !== undefined &&<RequestTokensToBeMinted address={address}/> }
-
-
 
         <Divider orientation="horizontal" />
         <GrantRole/>
@@ -64,7 +66,7 @@ function WalletInfo() {
         <GetWinningProposal/>
       </Card>
     );
-  if (isConnecting)
+  if (mounted && isConnecting)
     return (
       <Card variant="outlined" sx={{ width: 343, display: "flex", gap: 2 }}>
         <AspectRatio ratio="21/9">
