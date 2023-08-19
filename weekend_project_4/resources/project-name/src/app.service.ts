@@ -4,7 +4,7 @@ import * as ballotJson from './assets/TokenizedBallot.json';
 import { ethers } from 'ethers';
 import * as dotenv from 'dotenv';
 dotenv.config();
-const TOKEN_ADDRESS = '0xc7F7B242F2D2Cd329Dfce99BA520a833dF39Cf7d';
+const TOKEN_ADDRESS = '0x8DC05594Eb309909A0f411A05E5ccF8B2A9aa59a';
 
 @Injectable()
 export class AppService {
@@ -112,5 +112,26 @@ export class AppService {
     );
     const receipt = await tx.wait();
     return { success: true, txHash: receipt.hash };
+  }
+
+  async getWinningProposal(address: string): Promise<any> {
+    const updatedAddress = address.slice(1);
+    const ballotContract = new ethers.Contract(
+      updatedAddress,
+      ballotJson.abi,
+      this.wallet,
+    );
+    const tx = await ballotContract.proposals(
+      await ballotContract.winningProposal(),
+    );
+    // const receipt = await tx.wait();
+    const proposalName = ethers.decodeBytes32String(tx.name);
+    const votesCount = String(tx.voteCount);
+    return {
+      success: true,
+      txHash: tx.hash,
+      proposalName: proposalName,
+      votesCount: votesCount,
+    };
   }
 }
