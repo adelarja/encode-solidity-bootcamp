@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getRequestOptions } from ".";
 import { Button, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
-import { ENDPOINT } from "@/app/constants";
+import { backendBaseUrl } from "@/app/constants";
 import { useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { parseEther } from "viem";
 
@@ -67,7 +67,7 @@ export function GrantRole() {
     value: parseEther('0')
   });
   const {write} = useContractWrite(config);
-  
+
   if (!data)
     return (
       <div>
@@ -97,7 +97,7 @@ export function GrantRole() {
           variant="solid"
           disabled={isLoading}
           onClick={() => {
-            write?.();            
+            write?.();
           }}
         >
           {isLoading ? "Requesting tokens from API..." : "Grant Role"}

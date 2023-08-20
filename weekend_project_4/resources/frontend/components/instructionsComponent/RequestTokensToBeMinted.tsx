@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/joy";
 import { useState } from "react";
-import { ENDPOINT } from "@/app/constants";
+import { backendBaseUrl } from "@/app/constants";
 
 export function RequestTokensToBeMinted(params: { address: `0x${string}` }) {
   const [data, setData] = useState<any>(null);
@@ -17,7 +17,7 @@ export function RequestTokensToBeMinted(params: { address: `0x${string}` }) {
         disabled={isLoading}
         onClick={() => {
           setLoading(true);
-          fetch(`${ENDPOINT}/mint-tokens`, requestOptions)
+          fetch(`${backendBaseUrl}/mint-tokens`, requestOptions)
             .then((res) => res.json())
             .then((data) => {
               setData(data);

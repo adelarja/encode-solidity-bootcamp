@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getRequestOptions } from ".";
 import { Button, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
-import { ENDPOINT } from "@/app/constants";
+import { backendBaseUrl } from "@/app/constants";
 
 export function MintTokenToAddress() {
   const [data, setData] = useState<any>(null);
@@ -27,7 +27,7 @@ export function MintTokenToAddress() {
           onClick={() => {
             setLoading(true);
             fetch(
-              `${ENDPOINT}/mint-tokens`,
+              `${backendBaseUrl}/mint-tokens`,
               getRequestOptions(address)
             )
               .then((res) => res.json())
