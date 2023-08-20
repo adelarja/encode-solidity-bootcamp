@@ -82,10 +82,7 @@ export class AppService {
     return proposals.map(ethers.encodeBytes32String);
   }
 
-  async deployTokenizedBallot(
-    proposals: string[],
-    address: string,
-  ) {
+  async deployTokenizedBallot(proposals: string[], address: string) {
     const ballotContract = new ethers.ContractFactory(
       ballotJson.abi,
       ballotJson.bytecode,
@@ -101,11 +98,7 @@ export class AppService {
     return { success: true, address: await tx.getAddress() };
   }
 
-  async voteProposal(
-    address: string,
-    proposal: number,
-    amountOfVotes: number,
-  ) {
+  async voteProposal(address: string, proposal: number, amountOfVotes: number) {
     const ballotContract = new ethers.Contract(
       address,
       ballotJson.abi,

@@ -4,12 +4,17 @@ import {
   Param,
   Post,
   Body,
-  InternalServerErrorException, HttpCode,
+  InternalServerErrorException,
+  HttpCode,
+  UseGuards,
 } from '@nestjs/common';
+import { ApiBasicAuth } from '@nestjs/swagger';
+
 import { AppService } from './app.service';
 import { MintTokensDto } from './dtos/mintToken.dto';
 import { VoteBallotDto } from './dtos/voteBallot.dto';
 import { DeployBallotDto } from './dtos/deployBallot.dto';
+import { BasicAuthGuard } from './guards/basic_auth.guard';
 
 @Controller()
 export class AppController {
@@ -25,22 +30,22 @@ export class AppController {
     return 'OK';
   }
 
-  @Get('get-address')
+  @Get('token-address')
   getTokenAddress(): any {
     return this.appService.getTokenAddress();
   }
 
-  @Get('get-total-supply')
+  @Get('total-supply')
   async getTotalSupply(): Promise<bigint> {
     return this.appService.getTotalSupply();
   }
 
-  @Get('get-token-balance/:address')
+  @Get('balance/:address')
   async getTokenBalance(@Param('address') address: string): Promise<bigint> {
     return this.appService.getTokenBalance(address);
   }
 
-  @Get('get-winning-proposal/:address')
+  @Get('winning-proposal/:address')
   async getWinningProposal(@Param('address') address: string): Promise<any> {
     return this.appService.getWinningProposal(address);
   }
@@ -50,16 +55,6 @@ export class AppController {
   async mintTokens(@Body() body: MintTokensDto) {
     try {
       return await this.appService.mintTokens(body.address);
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
-  @Post('grant-role')
-  @HttpCode(200)
-  async grantRole(@Body() body: MintTokensDto) {
-    try {
-      return await this.appService.grantRole(body.address);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
@@ -78,13 +73,30 @@ export class AppController {
   @Post('deploy-ballot')
   async deployTokenizedBallot(@Body() body: DeployBallotDto) {
     try {
-      return await this.appService.deployTokenizedBallot(body.proposals, body.address);
+      return await this.appService.deployTokenizedBallot(
+        body.proposals,
+        body.address,
+      );
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
   }
 
+  @ApiBasicAuth()
+  @Post('grant-role')
+  @UseGuards(BasicAuthGuard)
+  @HttpCode(200)
+  async grantRole(@Body() body: MintTokensDto) {
+    try {
+      return await this.appService.grantRole(body.address);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  @ApiBasicAuth()
   @Post('vote-proposal')
+  @UseGuards(BasicAuthGuard)
   @HttpCode(200)
   async voteProposal(@Body() body: VoteBallotDto) {
     try {
