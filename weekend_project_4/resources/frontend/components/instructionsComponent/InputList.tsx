@@ -4,48 +4,37 @@ import { Button, ButtonGroup, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
 import { backendBaseUrl } from "@/app/constants";
 export function InputList() {
-  const [inputs, setInputs] = useState([{ value: "" }]);
+  const [proposals, setProposals] = useState([""]);
   const [data, setData] = useState<any>(null);
   const [address, setAddress] = useState("");
 
   function handleInputChange(index: number, value: string) {
-    const newInputs = [...inputs];
-    newInputs[index].value = value;
-    setInputs(newInputs);
+    const newInputs = [...proposals];
+    newInputs[index] = value;
+    setProposals(newInputs);
   }
 
   const handleAddInput = () => {
-    setInputs([...inputs, { value: "" }]);
+    setProposals([...proposals, ""]);
   };
 
   const handleRemoveInput = (index: number) => {
-    const newInputs = [...inputs];
+    const newInputs = [...proposals];
     newInputs.splice(index, 1);
-    setInputs(newInputs);
+    setProposals(newInputs);
   };
 
   if (!data)
     return (
       <div>
-        <Input
-          sx={{ my: 1 }}
-          color="primary"
-          size="md"
-          variant="outlined"
-          value={address}
-          onChange={(e: EventChange) => {
-            return setAddress(e.target.value);
-          }}
-          placeholder="Token Contract Address for Ballot:"
-        />
-        {inputs.map((input, index) => (
+        {proposals.map((input, index) => (
           <div key={index}>
             <Input
               sx={{ my: 1 }}
               color="primary"
               size="md"
               variant="outlined"
-              value={input.value}
+              value={input}
               onChange={(e) => handleInputChange(index, e.target.value)}
               placeholder={`Proposal ${index}`}
               endDecorator={
@@ -65,7 +54,7 @@ export function InputList() {
             onClick={() => {
               fetch(
                 `${backendBaseUrl}/deploy-ballot`,
-                getRequestOptionsTokenizedBallot(address, inputs)
+                getRequestOptionsTokenizedBallot(proposals)
               )
                 .then((res) => res.json())
                 .then((data) => {

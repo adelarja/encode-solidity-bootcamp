@@ -224,24 +224,20 @@ export function getRequestOptions(address: string) {
   return {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ address: address }),
+    body: JSON.stringify({ address }),
   };
 }
 
-export function getRequestOptionsTokenizedBallot(address: string, inputs: any) {
-  const proposals = [...inputs].map((x) => x.value);
+export function getRequestOptionsTokenizedBallot(proposals: string[]) {
   return {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      address: address,
-      proposals: proposals.slice(0, -1),
-    }),
+    body: JSON.stringify({ proposals }),
   };
 }
 
 export function getRequestOptionsVote(
-  contractAddress: string,
+  ballotAddress: string,
   proposalNumber: number,
   amountOfVotes: number
 ) {
@@ -249,9 +245,9 @@ export function getRequestOptionsVote(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      ballotAddress: contractAddress,
-      proposalNumber: proposalNumber,
-      amountOfVotes: amountOfVotes,
+      ballotAddress,
+      proposalNumber,
+      amountOfVotes,
     }),
   };
 }
