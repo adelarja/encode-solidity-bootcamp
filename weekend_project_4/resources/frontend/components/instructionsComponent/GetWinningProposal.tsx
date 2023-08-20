@@ -1,5 +1,6 @@
 import { Button, Input, Typography } from "@mui/joy";
 import { useState } from "react";
+import { ENDPOINT } from "@/app/constants";
 
 export function GetWinningProposal() {
   const [data, setData] = useState<any>(null);
@@ -23,7 +24,7 @@ export function GetWinningProposal() {
           variant="solid"
           onClick={async () => {
             setLoading(true);
-            fetch(`http://localhost:3001/get-winning-proposal/:${address}`)
+            fetch(`${ENDPOINT}/get-winning-proposal/:${address}`)
               .then((res) => res.json())
               .then((data) => {
                 setData(data);

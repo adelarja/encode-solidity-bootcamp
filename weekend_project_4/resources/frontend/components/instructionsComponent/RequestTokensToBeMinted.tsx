@@ -1,5 +1,6 @@
 import { Button, Typography } from "@mui/joy";
 import { useState } from "react";
+import { ENDPOINT } from "@/app/constants";
 
 export function RequestTokensToBeMinted(params: { address: `0x${string}` }) {
   const [data, setData] = useState<any>(null);
@@ -16,7 +17,7 @@ export function RequestTokensToBeMinted(params: { address: `0x${string}` }) {
         disabled={isLoading}
         onClick={() => {
           setLoading(true);
-          fetch("http://localhost:3001/mint-tokens", requestOptions)
+          fetch(`${ENDPOINT}/mint-tokens`, requestOptions)
             .then((res) => res.json())
             .then((data) => {
               setData(data);

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getRequestOptions } from ".";
 import { Button, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
+import { ENDPOINT } from "@/app/constants";
 
 export function GrantRole() {
   const [data, setData] = useState<any>(null);
@@ -27,7 +28,7 @@ export function GrantRole() {
           onClick={() => {
             setLoading(true);
             fetch(
-              "http://localhost:3001/grant-role",
+              `${ENDPOINT}/grant-role`,
               getRequestOptions(address)
             )
               .then((res) => res.json())

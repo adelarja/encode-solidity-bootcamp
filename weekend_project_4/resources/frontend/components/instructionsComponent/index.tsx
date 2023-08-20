@@ -12,6 +12,7 @@ import { GrantRole } from "./GrantRole";
 import { MintTokenToAddress } from "./MintTokenToAddress";
 import { DelegateVotes } from "./DelegateVotes";
 import { InputList } from "./InputList";
+import { ENDPOINT } from "@/app/constants";
 
 export default function InstructionsComponent() {
   return (
@@ -201,7 +202,7 @@ function TokenAddressFromAPI() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3001/get-address")
+    fetch(`${ENDPOINT}/get-address`)
       .then((res) => res.json())
       .then((data) => {
         setData(data);

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getRequestOptionsTokenizedBallot } from ".";
 import { Button, ButtonGroup, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
+import { ENDPOINT } from "@/app/constants";
 export function InputList() {
   const [inputs, setInputs] = useState([{ value: "" }]);
   const [data, setData] = useState<any>(null);
@@ -63,7 +64,7 @@ export function InputList() {
             color="primary"
             onClick={() => {
               fetch(
-                "http://localhost:3001/deploy-tokenized-ballot",
+                `${ENDPOINT}/deploy-tokenized-ballot`,
                 getRequestOptionsTokenizedBallot(address, inputs)
               )
                 .then((res) => res.json())
