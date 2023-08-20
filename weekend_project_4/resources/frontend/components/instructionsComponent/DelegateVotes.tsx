@@ -2,11 +2,37 @@ import { useState } from "react";
 import { getRequestOptions } from ".";
 import { Button, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { parseEther } from "viem";
 
 export function DelegateVotes() {
   const [data, setData] = useState<any>(null);
   const [isLoading, setLoading] = useState(false);
-  const [address, setAddress] = useState("");
+  const [delegatee, setDelegatee] = useState("");
+  const [tokenAddress, setTokenAddress] = useState("");
+
+  const {config} = usePrepareContractWrite({
+    address: tokenAddress as `0x${string}`,
+    abi: [
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "delegatee",
+            "type": "address"
+          }
+        ],
+        "name": "delegate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    functionName: 'delegate',
+    args: [delegatee],
+    value: parseEther('0')
+  });
+  const {write} = useContractWrite(config);
 
   if (!data)
     return (
@@ -16,9 +42,20 @@ export function DelegateVotes() {
           color="primary"
           size="md"
           variant="outlined"
-          value={address}
+          value={tokenAddress}
           onChange={(e: EventChange) => {
-            return setAddress(e.target.value);
+            return setTokenAddress(e.target.value);
+          }}
+          placeholder="Token Contract Address:"
+        />
+        <Input
+          sx={{ my: 1 }}
+          color="primary"
+          size="md"
+          variant="outlined"
+          value={delegatee}
+          onChange={(e: EventChange) => {
+            return setDelegatee(e.target.value);
           }}
           placeholder="Delegate Votes to this address:"
         />
@@ -26,28 +63,11 @@ export function DelegateVotes() {
           disabled={isLoading}
           variant="solid"
           onClick={() => {
-            setLoading(true);
-            fetch("http://localhost:3001/delegate", getRequestOptions(address))
-              .then((res) => res.json())
-              .then((data) => {
-                setData(data);
-                setLoading(false);
-              });
+            write?.();
           }}
         >
           {isLoading ? "Requesting tokens from API..." : "Delegate"}
         </Button>
       </div>
     );
-
-  return (
-    <div>
-      <Typography level="h4" textAlign={"center"}>
-        Votes delegated: {data.success ? "Worked" : "Failed"}
-      </Typography>
-      <Typography level="h4" textAlign={"center"}>
-        Transaction Hash: {data.txHash}
-      </Typography>
-    </div>
-  );
 }
