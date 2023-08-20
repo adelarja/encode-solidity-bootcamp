@@ -73,10 +73,7 @@ export class AppController {
   @Post('deploy-ballot')
   async deployTokenizedBallot(@Body() body: DeployBallotDto) {
     try {
-      return await this.appService.deployTokenizedBallot(
-        body.proposals,
-        body.address,
-      );
+      return await this.appService.deployTokenizedBallot(body.proposals);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
