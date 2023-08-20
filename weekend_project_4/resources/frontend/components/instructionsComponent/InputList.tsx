@@ -64,7 +64,7 @@ export function InputList() {
             color="primary"
             onClick={() => {
               fetch(
-                `${backendBaseUrl}/deploy-tokenized-ballot`,
+                `${backendBaseUrl}/deploy-ballot`,
                 getRequestOptionsTokenizedBallot(address, inputs)
               )
                 .then((res) => res.json())

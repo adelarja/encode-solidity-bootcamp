@@ -24,7 +24,7 @@ export function GetWinningProposal() {
           variant="solid"
           onClick={async () => {
             setLoading(true);
-            fetch(`${backendBaseUrl}/get-winning-proposal/:${address}`)
+            fetch(`${backendBaseUrl}/winning-proposal/:${address}`)
               .then((res) => res.json())
               .then((data) => {
                 setData(data);

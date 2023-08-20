@@ -202,7 +202,7 @@ function TokenAddressFromAPI() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${backendBaseUrl}/get-address`)
+    fetch(`${backendBaseUrl}/token-address`)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
