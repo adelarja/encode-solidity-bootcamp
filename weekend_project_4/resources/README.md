@@ -1,11 +1,9 @@
 # Quick explanation
 
-At the beginning, vote and delegate were implemented to be invoked using the backend. After that, we realized that in that way, only 1 private key would be able to vote if the backend is deployed in a server. For that, we decided to use wagmi to call the vote/delegate votes. Furthermore, we kept the API endpoints for educational purposes.
+At the beginning, vote, delegate and grantRole were implemented to be invoked using the backend. After that, we realized that in that way, only 1 private key would be able to vote if the backend is deployed in a server. For that, we decided to use wagmi to call the vote/delegate/granRole functions. Furthermore, we kept the API endpoints for educational purposes.
 
 We could do the same with:
-* Mint function
 * Tokenized Ballot Deployment function
-* Grant Role function
 
 # API deployment
 
