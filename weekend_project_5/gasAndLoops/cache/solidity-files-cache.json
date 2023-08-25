@@ -1,0 +1,145 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/adelarja/Documents/projects/encode/encode-solidity-bootcamp/weekend_project_5/gasTest/contracts/Gas.sol": {
+      "lastModificationDate": 1692641267134,
+      "contentHash": "7c9f25e393e1b933a1848c4380a7c4a7",
+      "sourceName": "contracts/Gas.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "Gas"
+      ]
+    },
+    "/home/adelarja/Documents/projects/encode/encode-solidity-bootcamp/weekend_project_5/gasTest/contracts/Overflow.sol": {
+      "lastModificationDate": 1692644395684,
+      "contentHash": "3b82c43a52f398e5bc5acda908ef6ec4",
+      "sourceName": "contracts/Overflow.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "OverflowTest"
+      ]
+    },
+    "/home/adelarja/Documents/projects/encode/encode-solidity-bootcamp/weekend_project_5/gasAndLoops/contracts/SortedBallot.sol": {
+      "lastModificationDate": 1692729794530,
+      "contentHash": "6a41b718bf2a8de200149fc64fda7db7",
+      "sourceName": "contracts/SortedBallot.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.7.0 <0.9.0"
+      ],
+      "artifacts": [
+        "SortedBallot"
+      ]
+    },
+    "/home/adelarja/Documents/projects/encode/encode-solidity-bootcamp/weekend_project_5/gasAndLoops/contracts/CorrectedSortedBallot.sol": {
+      "lastModificationDate": 1692732361924,
+      "contentHash": "6a2f46737732ae13d4b247b14fb082a0",
+      "sourceName": "contracts/CorrectedSortedBallot.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.7.0 <0.9.0"
+      ],
+      "artifacts": [
+        "CorrectSortedBallot"
+      ]
+    }
+  }
+}
