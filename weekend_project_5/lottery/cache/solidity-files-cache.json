@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/adelarja/Documents/projects/encode/encode-solidity-bootcamp/weekend_project_5/lottery/contracts/Lottery.sol": {
-      "lastModificationDate": 1692904391288,
-      "contentHash": "6be7fdc0a0c00987aa5f1fa157ccdb6f",
+      "lastModificationDate": 1692933617170,
+      "contentHash": "db32bb57eb6370d43e067bf90ce0013f",
       "sourceName": "contracts/Lottery.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -33,7 +33,7 @@
         "./LotteryToken.sol"
       ],
       "versionPragmas": [
-        "^0.8.4"
+        ">=0.7.0 <0.9.0"
       ],
       "artifacts": [
         "Lottery"
@@ -261,8 +261,8 @@
       ]
     },
     "/home/adelarja/Documents/projects/encode/encode-solidity-bootcamp/weekend_project_5/lottery/contracts/LotteryToken.sol": {
-      "lastModificationDate": 1692902139442,
-      "contentHash": "e8e96c33c5c8a30edf006180fb10c866",
+      "lastModificationDate": 1692933634538,
+      "contentHash": "6953dc79a7b7c597afcee1619d5b058c",
       "sourceName": "contracts/LotteryToken.sol",
       "solcConfig": {
         "version": "0.8.19",
