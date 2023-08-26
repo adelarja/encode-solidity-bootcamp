@@ -51,9 +51,6 @@ function WalletInfo() {
         {chain && <ChainName name={chain.name} />}
         <Divider orientation="horizontal" />
         <SignMessage />
-          <Divider orientation="horizontal" />
-        {address !== undefined &&<RequestTokensToBeMinted address={address}/> }
-
         <Divider orientation="horizontal" />
         <GetTokens/>
         <Divider orientation="horizontal" />
