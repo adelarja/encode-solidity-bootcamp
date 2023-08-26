@@ -1,6 +1,6 @@
 ### IDE ###
 .idea/
-
+pnpm-lock.yaml
 ### Node ###
 # Logs
 logs
