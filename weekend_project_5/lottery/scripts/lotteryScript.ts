@@ -31,7 +31,7 @@ async function initContracts() {
   contract = await contractFactory2.deploy();
   await contract.waitForDeployment();
   const tokenAddress = await contract.paymentToken();
-  const tokenFactory = new LotteryToken__factory(accounts[0]);
+  const tokenFactory = ethers.getContractFactory("LotteryToken");
   token = await tokenFactory.attach(tokenAddress) as LotteryToken;
 }
 
