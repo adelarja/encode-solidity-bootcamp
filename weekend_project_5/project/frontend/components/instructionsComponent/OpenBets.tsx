@@ -60,7 +60,7 @@ export function OpenBets() {
             write?.();
           }}
         >
-          {isLoading ? "Openning Bets..." : "Open Bets (only owner)"}
+          {isLoading ? "Openning Bets..." : "Open Bets (only owner). Set days of duration."}
         </Button>
       </div>
     );
