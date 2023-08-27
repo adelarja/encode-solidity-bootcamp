@@ -7,7 +7,7 @@ import ChainName from "./chainName";
 import { SignMessage } from "./SignMessage";
 import { Bet } from "./bet";
 import { GetTokens } from "./buyTokens";
-import { InputList } from "./InputList";
+import { OpenBets } from "./OpenBets";
 import { backendBaseUrl } from "@/app/constants";
 
 export default function InstructionsComponent() {
@@ -51,6 +51,8 @@ function WalletInfo() {
         <GetTokens/>
         <Divider orientation="horizontal" />
         <Bet/>
+        <Divider orientation="horizontal" />
+        <OpenBets/>
       </Card>
     );
   if (mounted && isConnecting)
