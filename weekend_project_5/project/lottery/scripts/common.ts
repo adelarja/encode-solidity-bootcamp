@@ -68,3 +68,12 @@ export async function getTokenContractAt(contractAddress: string) {
   const tokenContract = tokenFactory.attach(contractAddress) as Lottery;
   return tokenContract;
 }
+
+async function getTimestamp() {
+  let provider = await getProvider();
+  let block = await provider.getBlock('latest');
+  let timestamp = block?.timestamp;
+  console.log(timestamp);
+}
+
+getTimestamp();
