@@ -5,11 +5,7 @@ import { AspectRatio, Card, Divider, Skeleton } from "@mui/joy";
 import Address from "./address";
 import ChainName from "./chainName";
 import { SignMessage } from "./SignMessage";
-import { RequestTokensToBeMinted } from "./RequestTokensToBeMinted";
-import { GetWinningProposal } from "./GetWinningProposal";
-import { VoteProposal } from "./VoteProposal";
-import { GrantRole } from "./GrantRole";
-import { MintTokenToAddress } from "./MintTokenToAddress";
+import { Bet } from "./bet";
 import { GetTokens } from "./buyTokens";
 import { InputList } from "./InputList";
 import { backendBaseUrl } from "@/app/constants";
@@ -54,6 +50,7 @@ function WalletInfo() {
         <Divider orientation="horizontal" />
         <GetTokens/>
         <Divider orientation="horizontal" />
+        <Bet/>
       </Card>
     );
   if (mounted && isConnecting)
