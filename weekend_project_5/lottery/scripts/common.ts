@@ -68,5 +68,3 @@ export async function getTokenContractAt(contractAddress: string) {
   const tokenContract = tokenFactory.attach(contractAddress) as Lottery;
   return tokenContract;
 }
-
-console.log(ethers.parseUnits(BET_PRICE.toFixed(18)));

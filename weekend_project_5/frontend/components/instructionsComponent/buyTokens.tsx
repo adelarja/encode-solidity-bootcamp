@@ -3,8 +3,9 @@ import { Button, Input } from "@mui/joy";
 import { EventChange } from "./typeEvents";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import { parseGwei } from "viem";
+import { LOTTERY_CONTRACT } from "../constants";
 
-const TOKEN_ADDRESS = "";
+const TOKEN_ADDRESS = LOTTERY_CONTRACT;
 
 export function GetTokens() {
   const [data, setData] = useState<any>(null);
