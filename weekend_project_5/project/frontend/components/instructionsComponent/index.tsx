@@ -9,6 +9,7 @@ import { Bet } from "./bet";
 import { GetTokens } from "./buyTokens";
 import { OpenBets } from "./OpenBets";
 import { backendBaseUrl } from "@/app/constants";
+import { Approve } from "./approve";
 
 export default function InstructionsComponent() {
   return (
@@ -49,6 +50,8 @@ function WalletInfo() {
         <SignMessage />
         <Divider orientation="horizontal" />
         <GetTokens/>
+        <Divider orientation="horizontal" />
+        <Approve />
         <Divider orientation="horizontal" />
         <Bet/>
         <Divider orientation="horizontal" />

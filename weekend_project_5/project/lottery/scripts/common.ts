@@ -1,11 +1,11 @@
 import { ethers } from "ethers";
-import { Lottery, LotteryToken__factory, Lottery__factory } from "../typechain-types";
+import { Lottery, LotteryToken, LotteryToken__factory, Lottery__factory } from "../typechain-types";
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 const TOKEN_RATIO = 1n;
-const BET_PRICE = 1;
-const BET_FEE = 0.2;
+const BET_PRICE = 0.00000000000000001;
+const BET_FEE = 0.000000000000000002;
 
 const loadWallet = (provider: ethers.JsonRpcProvider) => {
   if (process.env.PRIVATE_KEY != undefined) {
@@ -61,12 +61,25 @@ export async function deployLotteryContract() {
   return lotteryContract;
 }
 
-export async function getTokenContractAt(contractAddress: string) {
+export async function getLotteryContractAt(contractAddress: string) {
   const wallet = await getWallet();
 
   const tokenFactory = new Lottery__factory(wallet);
   const tokenContract = tokenFactory.attach(contractAddress) as Lottery;
   return tokenContract;
+}
+
+export async function getTokenContract(lotteryContractAddress: string) {
+  const wallet = await getWallet();
+
+  const lotteryFactory = new Lottery__factory(wallet);
+  const lotteryContract = lotteryFactory.attach(lotteryContractAddress) as Lottery;
+  
+  const tokenAddress = await lotteryContract.paymentToken();
+  const tokenFactory = new LotteryToken__factory(wallet);
+  const tokenContract = tokenFactory.attach(tokenAddress) as LotteryToken;
+
+  return tokenContract;  
 }
 
 async function getTimestamp() {
@@ -75,5 +88,3 @@ async function getTimestamp() {
   let timestamp = block?.timestamp;
   console.log(timestamp);
 }
-
-getTimestamp();
