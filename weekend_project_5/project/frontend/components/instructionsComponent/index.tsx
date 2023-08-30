@@ -10,6 +10,7 @@ import { GetTokens } from "./buyTokens";
 import { OpenBets } from "./OpenBets";
 import { backendBaseUrl } from "@/app/constants";
 import { Approve } from "./approve";
+import { CloseLottery } from "./closeLottery";
 
 export default function InstructionsComponent() {
   return (
@@ -56,6 +57,8 @@ function WalletInfo() {
         <Bet/>
         <Divider orientation="horizontal" />
         <OpenBets/>
+        <Divider orientation="horizontal" />
+        <CloseLottery/>
       </Card>
     );
   if (mounted && isConnecting)
