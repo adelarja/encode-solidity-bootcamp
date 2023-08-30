@@ -11,6 +11,7 @@ import { OpenBets } from "./OpenBets";
 import { backendBaseUrl } from "@/app/constants";
 import { Approve } from "./approve";
 import { CloseLottery } from "./closeLottery";
+import { ReturnTokens } from "./returnTokens";
 
 export default function InstructionsComponent() {
   return (
@@ -59,6 +60,8 @@ function WalletInfo() {
         <OpenBets/>
         <Divider orientation="horizontal" />
         <CloseLottery/>
+        <Divider orientation="horizontal" />
+        <ReturnTokens/>
       </Card>
     );
   if (mounted && isConnecting)
