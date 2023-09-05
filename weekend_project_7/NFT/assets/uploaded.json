@@ -1,0 +1,10 @@
+{
+  "bear": {
+    "metadata": "ipfs://QmZynzcHqNAPeUk6FVxyw8ofD6VXnpvYCXfyn42ADwFXfw/bear.json",
+    "image": "ipfs://QmXTPNZx6bHstwjQmrw9FGR88T9Mb6HqaeCM88FxMarpm3/_c1939861-f563-4d1b-8107-38de936524d3.jpeg"
+  },
+  "bull": {
+    "metadata": "ipfs://QmZynzcHqNAPeUk6FVxyw8ofD6VXnpvYCXfyn42ADwFXfw/bull.json",
+    "image": "ipfs://QmXTPNZx6bHstwjQmrw9FGR88T9Mb6HqaeCM88FxMarpm3/_8b179f29-7214-4f24-9d14-22d577c4237e.jpeg"
+  }
+}
