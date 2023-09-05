@@ -7,7 +7,7 @@
   "private": false,
   "scripts": {
     "compile": "hardhat compile",
-    "verify":"hardhat verify --network sepolia 0x7df82f6b740544b1a6949ea68cd9a5f584f811e5  \"0x199839a4907ABeC8240D119B606C98c405Bb0B33\"",
+    "verify":"hardhat verify --network sepolia 0x681fa2771b337d010f3b441f078ed7c9bf566009  \"0x199839a4907ABeC8240D119B606C98c405Bb0B33\"",
     "deploy:testnet": "hardhat run --network sepolia scripts/deploy.ts",
     "deploy": "hardhat run --network hardhat scripts/deploy.ts"
   },
