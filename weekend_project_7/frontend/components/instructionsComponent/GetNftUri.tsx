@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getRequestOptions } from ".";
 import { Button, Input, Typography } from "@mui/joy";
 import { EventChange } from "./typeEvents";
@@ -6,6 +6,12 @@ import { backendBaseUrl } from "@/app/constants";
 import { useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { parseEther } from "viem";
 import { NFT_CONTRACT_ADDRESS } from "../constants";
+import { useFetch } from "./useFetch";
+
+
+const url = `http://jsonplaceholder.typicode.com/posts`
+
+
 
 function getNftUri(tokenId: bigint): string {
   const { data, isError, isLoading } = useContractRead({
@@ -40,13 +46,37 @@ function getNftUri(tokenId: bigint): string {
   return String(tokenUri) ;
 }
 
+type MetadataType = {
+  url:string
+}
+
+interface Post {
+  name: string
+  description: string
+  image: string
+}
+
+function Metadata(props:MetadataType){
+  const { data, error } = useFetch<Post>(props.url.replace("ipfs://","https://azure-meaningful-aphid-741.mypinata.cloud/ipfs/"));
+  console.log(data);
+  if (error) return <p>There is an error.</p>
+  if (!data) return <p>Loading...</p>
+  return (
+    <div>
+      <h1>{data.name}</h1>
+      <img id="nft_image" src={data.image} alt={data.name} />
+      <h3>{data.description}</h3>
+    </div>
+  )
+}
+
 export function GetNftUri() {
   const [data, setData] = useState<any>(null);
   const [isLoading, setLoading] = useState(false);
   const [addressToGrant, setAddressToGrant] = useState("");
   const [tokenId, setTokenId] = useState(0);
   const [tokenURI, setTokenURI] = useState("");
-
+  const [json, setJson] = useState("");
   let tokenUri = getNftUri(BigInt(tokenId));
 
   if (!data)
@@ -74,7 +104,7 @@ export function GetNftUri() {
           {isLoading ? "Requesting tokens from API..." : "Get Token URI"}
         </Button>
         <div>
-          TOKEN URI: {tokenURI} 
+          {tokenURI && <Metadata url={tokenURI} />}
         </div>
       </div>
     );
