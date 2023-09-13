@@ -12,11 +12,10 @@ contract NFT is ERC721, UsingTellor {
         "ipfs://QmZynzcHqNAPeUk6FVxyw8ofD6VXnpvYCXfyn42ADwFXfw/bull.json";
     string bearMetadata =
         "ipfs://QmZynzcHqNAPeUk6FVxyw8ofD6VXnpvYCXfyn42ADwFXfw/bear.json";
-    mapping(uint256 => uint256) public ethPrice;
 
     constructor(
         address payable _tellorAddress
-    ) ERC721("bear and bull", "BB") UsingTellor(_tellorAddress) {}
+    ) ERC721("bear and bull bootcamp", "BBB") UsingTellor(_tellorAddress) {}
     
     function getEthSpotPrices() public view returns (uint256, uint256) {
         bytes memory _queryData = abi.encode(
@@ -59,11 +58,11 @@ contract NFT is ERC721, UsingTellor {
         return abi.decode(_value, (uint256));
     }
 
-    function safeMint(address to) public {
+    function safeMint(address to) external returns(uint256) {
         _safeMint(to, _tokenIds.current());
-        ethPrice[_tokenIds.current()] = getEthSpotPrice();
         _tokenIds.increment();
         emit BatchMetadataUpdate(0, type(uint256).max);
+        return _tokenIds.current();
     }
 
     function tokenURI(

@@ -4,8 +4,6 @@ import * as dotenv from "dotenv";
 import { NFT__factory } from "../typechain-types";
 dotenv.config();
 
-
-
 async function main() {
   const tellorAddress =  process.env.ORACLE ? process.env.ORACLE:"";
   const [deployer] = await ethers.getSigners();

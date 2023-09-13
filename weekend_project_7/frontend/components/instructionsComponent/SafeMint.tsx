@@ -1,74 +1,53 @@
 import { useState } from "react";
-import { getRequestOptions } from ".";
 import { Button, Input, Typography } from "@mui/joy";
-import { EventChange } from "./typeEvents";
-import { backendBaseUrl } from "@/app/constants";
-import { useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
-import { parseEther } from "viem";
+import {
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 import { NFT_CONTRACT_ADDRESS } from "../constants";
+import contract from "../../app/NFT.json";
 
-export function SafeMint() {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setLoading] = useState(false);
-  const [addressToMint, setAddressToMint] = useState("");
-
-  const {config} = usePrepareContractWrite({
-    address: NFT_CONTRACT_ADDRESS as `0x${string}`,
-    abi: [
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          }
-        ],
-        "name": "safeMint",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-    ],
-    functionName: 'safeMint',
-    args: [addressToMint],
-    value: parseEther('0')
+type Result = {
+  hash: string;
+};
+function Result(result: Result) {
+  const { data, isError, isLoading } = useWaitForTransaction({
+    hash: result.hash as `0x${string}`
   });
-  const {write} = useContractWrite(config);
-
-  if (!data)
-    return (
-      <div>
-        <Input
-          sx={{ my: 1 }}
-          color="primary"
-          size="md"
-          variant="outlined"
-          value={addressToMint}
-          onChange={(e: EventChange) => {
-            return setAddressToMint(e.target.value);
-          }}
-          placeholder="Mint nft to this address:"
-        />
-        <Button
-          variant="solid"
-          disabled={isLoading}
-          onClick={() => {
-            write?.();
-          }}
-        >
-          {isLoading ? "Requesting tokens from API..." : "Safe Mint"}
-        </Button>
-      </div>
-    );
+  console.log(data);
+  if (isLoading) return <div>Processing…</div>;
+  if (isError) return <div>Transaction error</div>;
+  return <a style={{textDecoration:"underline",fontSize:"36px",fontWeight:"Bold",color:"darkcyan"}} href="https://testnets.opensea.io/collection/bear-and-bull-bootcamp/activity">See you new nft at opensea!</a>;
+}
+export function SafeMint() {
+  const { address } = useAccount();
+  const { config } = usePrepareContractWrite({
+    address: NFT_CONTRACT_ADDRESS as `0x${string}`,
+    abi: contract.abi,
+    functionName: "safeMint",
+    args: [address],
+    onSuccess(data) {
+      console.log("Success", data);
+    },
+  });
+  const { data, isLoading, write } = useContractWrite(config);
 
   return (
     <div>
-      <Typography level="h4" textAlign={"center"}>
-        Role granted: {data.success ? "Worked" : "Failed"}
-      </Typography>
-      <Typography level="h4" textAlign={"center"}>
-        Transaction Hash: {data.txHash}
-      </Typography>
+      <Button
+        variant="solid"
+        disabled={isLoading}
+        onClick={() => {
+          write?.();
+        }}
+      >
+        Mint NFT
+      </Button>
+      <div>
+      {data && <Result hash={data.hash} />}
+      </div>
     </div>
   );
 }

@@ -1,17 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "./instructionsComponent.module.css";
-import { useAccount, useBalance, useContractRead, useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 import { AspectRatio, Card, Divider, Skeleton } from "@mui/joy";
-import Address from "./address";
 import ChainName from "./chainName";
-import { SignMessage } from "./SignMessage";
-import { Bet } from "./bet";
-import { GetTokens } from "./buyTokens";
-import { OpenBets } from "./OpenBets";
-import { backendBaseUrl } from "@/app/constants";
-import { Approve } from "./approve";
-import { CloseLottery } from "./closeLottery";
-import { ReturnTokens } from "./returnTokens";
 import { SafeMint } from "./SafeMint";
 import { GetNftUri } from "./GetNftUri";
 
@@ -20,7 +11,7 @@ export default function InstructionsComponent() {
     <div className={styles.container}>
       <header className={styles.header_container}>
         <div className={styles.header}>
-          <h1>Voting app</h1>
+          <h1>Bull and Bear NFT</h1>
         </div>
       </header>
       <div className={styles.get_started}>
@@ -48,7 +39,7 @@ function WalletInfo() {
   if (mounted && isConnected)
     return (
       <Card size="md" variant="soft"   sx={{ minWidth: "40em",maxWidth: "40em" }}>
-       {address !== undefined && <Address address={address} />}
+        <h3>Bull and Bear is a dynamic nft that change the image if ETH price is up or down</h3>
         {chain && <ChainName name={chain.name} />}
         <Divider orientation="horizontal" />
         <SafeMint/>
@@ -81,164 +72,3 @@ function WalletInfo() {
     </div>
   );
 }
-
-function WalletBalance(params: { address: `0x${string}` }) {
-  const { data, isError, isLoading } = useBalance({
-    address: params.address,
-  });
-
-  if (isLoading) return <div>Fetching balance…</div>;
-  if (isError) return <div>Error fetching balance</div>;
-  return (
-    <div>
-      Balance: {data?.formatted} {data?.symbol}
-    </div>
-  );
-}
-
-function TokenName() {
-  const { data, isError, isLoading } = useContractRead({
-    address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    abi: [
-      {
-        constant: true,
-        inputs: [],
-        name: "name",
-        outputs: [
-          {
-            name: "",
-            type: "string",
-          },
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    functionName: "name",
-  });
-
-  const name = typeof data === "string" ? data : 0;
-
-  if (isLoading) return <div>Fetching name…</div>;
-  if (isError) return <div>Error fetching name</div>;
-  return <div>Token name: {name}</div>;
-}
-
-function TokenBalance(params: { address: `0x${string}` }) {
-  const { data, isError, isLoading } = useContractRead({
-    address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    abi: [
-      {
-        constant: true,
-        inputs: [
-          {
-            name: "_owner",
-            type: "address",
-          },
-        ],
-        name: "balanceOf",
-        outputs: [
-          {
-            name: "balance",
-            type: "uint256",
-          },
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    functionName: "balanceOf",
-    args: [params.address],
-  });
-
-  const balance = typeof data === "number" ? data : 0;
-
-  if (isLoading) return <div>Fetching balance…</div>;
-  if (isError) return <div>Error fetching balance</div>;
-  return <div>Balance: {balance}</div>;
-}
-
-function RandomWord() {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("https://randomuser.me/api/")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data.results[0]);
-        setLoading(false);
-      });
-  }, []);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (!data) return <p>No profile data</p>;
-
-  return (
-    <div>
-      <h1>
-        Name: {data.name.title} {data.name.first} {data.name.last}
-      </h1>
-      <p>Email: {data.email}</p>
-    </div>
-  );
-}
-
-function TokenAddressFromAPI() {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`${backendBaseUrl}/token-address`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
-
-  if (isLoading) return <p>Loading token address from API...</p>;
-  if (!data) return <p>No answer from API...</p>;
-
-  return (
-    <div>
-      <p>Token address: {data.address}</p>
-    </div>
-  );
-}
-
-export function getRequestOptions(address: string) {
-  return {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ address }),
-  };
-}
-
-export function getRequestOptionsTokenizedBallot(proposals: string[]) {
-  return {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ proposals }),
-  };
-}
-
-export function getRequestOptionsVote(
-  ballotAddress: string,
-  proposalNumber: number,
-  amountOfVotes: number
-) {
-  return {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      ballotAddress,
-      proposalNumber,
-      amountOfVotes,
-    }),
-  };
-}
-
-
